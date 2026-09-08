@@ -7,7 +7,7 @@
 <title>Radio Monde</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{width:40px;height:40px;padding:0}.play{background:#123d50}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:fixed;left:0;right:0;bottom:0;display:none;background:rgba(5,13,24,.97);border-top:1px solid var(--line);padding:12px}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -37,6 +37,7 @@ const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.i
 const ISO_CODES='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
 const $=x=>document.getElementById(x), q=$('q'),tag=$('tag'),list=$('list'),status=$('status'),audio=$('audio'),player=$('player'),nowName=$('nowName'),nowMeta=$('nowMeta'),countrySearch=$('countrySearch'),countryMenu=$('countryMenu'),countryPicker=$('countryPicker');
 let stations=[], hls=null, mode='all', current=null, selectedCountryCode='', countries=[];
+status.after(player);
 const key='radio-monde-favs';
 const favs=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};
 const save=x=>localStorage.setItem(key,JSON.stringify(x));
@@ -158,8 +159,12 @@ function render(arr){
     const actions=document.createElement('div');
     const fav=document.createElement('button');fav.className='fav';fav.textContent=isFav(s.stationuuid)?'★':'☆';
     fav.onclick=()=>{let f=favs(),i=f.findIndex(x=>x.stationuuid===s.stationuuid);if(i>=0)f.splice(i,1);else f.unshift(s);save(f.slice(0,200));fav.textContent=isFav(s.stationuuid)?'★':'☆';if(mode==='fav')showFavs()};
-    const play=document.createElement('button');play.className='play';play.textContent='▶';play.title='Écouter';
-    play.onclick=()=>playStation(s,play);
+    const play=document.createElement('button');play.className='play';play.textContent='▶ Écouter';play.title='Écouter';
+    play.onclick=e=>{e.stopPropagation();playStation(s,play)};
+    fav.onclick=((original)=>e=>{e.stopPropagation();original()})(fav.onclick);
+    card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Écouter '+s.name);
+    card.onclick=()=>playStation(s,play);
+    card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();playStation(s,play)}};
     actions.append(fav,play);card.append(logo,info,actions);list.append(card)
   })
 }
@@ -175,8 +180,8 @@ const FIP_TEST={
   lastcheckok:1,
   ssl_error:0,
   favicon:'',
-  url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=radiofrance',
-  url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=radiofrance'
+  url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi',
+  url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi'
 };
 const SOMA_TEST={
   stationuuid:'official-soma-test',
@@ -189,8 +194,8 @@ const SOMA_TEST={
   lastcheckok:1,
   ssl_error:0,
   favicon:'',
-  url:'https://ice1.somafm.com/groovesalad-128-mp3',
-  url_resolved:'https://ice1.somafm.com/groovesalad-128-mp3'
+  url:'https://ice5.somafm.com/groovesalad-128-mp3',
+  url_resolved:'https://ice5.somafm.com/groovesalad-128-mp3'
 };
 
 async function search(){
@@ -289,12 +294,13 @@ async function exactAlternatives(s){
 }
 async function playStation(s,button){
   current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);player.classList.add('show');
+  player.scrollIntoView({behavior:'smooth',block:'nearest'});
   button.disabled=true;status.textContent='Connexion à '+s.name+'…';
   const errors=[];
   const primary=s.url_resolved||s.url;
   // First attempt happens before any network request so mobile browsers keep the tap permission.
   if(primary){
-    try{await tryUrl(primary,s);status.textContent='Lecture de '+s.name+'.';button.disabled=false;return}catch(e){errors.push(e.message)}
+    try{await tryUrl(primary,s);status.textContent='▶ Lecture de '+s.name+'.';button.disabled=false;return}catch(e){errors.push(e.message);status.textContent='Le navigateur a bloqué le démarrage automatique. Appuie sur ▶ dans le lecteur affiché juste au-dessus.'}
   }
   const urls=await freshUrls(s);
   for(const u of urls){
