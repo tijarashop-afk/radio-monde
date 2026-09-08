@@ -7,7 +7,7 @@
 <title>Radio Monde</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{width:40px;height:40px;padding:0}.play{background:#123d50}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:fixed;left:0;right:0;bottom:0;display:none;background:rgba(5,13,24,.97);border-top:1px solid var(--line);padding:12px}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center}.now{flex:1;min-width:0}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{width:40px;height:40px;padding:0}.play{background:#123d50}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:fixed;left:0;right:0;bottom:0;display:none;background:rgba(5,13,24,.97);border-top:1px solid var(--line);padding:12px}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -30,8 +30,7 @@
 <div id="list" class="grid"></div>
 <p class="note">Certaines stations peuvent diffuser leurs propres publicités à l’antenne. Les flux appartiennent aux stations et peuvent parfois être indisponibles ou bloqués selon le navigateur ou le pays.</p>
 </div>
-<div id="player" class="player"><div class="playerin"><div class="now"><strong id="nowName">—</strong><span id="nowMeta">—</span></div><button id="pause">Pause</button><button id="stop">Stop</button></div></div>
-<audio id="audio" preload="none" playsinline></audio>
+<div id="player" class="player"><div class="playerin"><div class="now"><strong id="nowName">—</strong><span id="nowMeta">—</span></div><audio id="audio" class="nativeaudio" preload="none" playsinline controls></audio><button id="stop">Stop</button></div></div>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.7.2/dist/hls.min.js"></script>
 <script>
 const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.info','https://at1.api.radio-browser.info'];
@@ -176,8 +175,22 @@ const FIP_TEST={
   lastcheckok:1,
   ssl_error:0,
   favicon:'',
-  url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi',
-  url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi'
+  url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=radiofrance',
+  url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=radiofrance'
+};
+const SOMA_TEST={
+  stationuuid:'official-soma-test',
+  name:'SomaFM Groove Salad — test audio',
+  country:'United States',
+  countrycode:'US',
+  codec:'MP3',
+  bitrate:128,
+  hls:0,
+  lastcheckok:1,
+  ssl_error:0,
+  favicon:'',
+  url:'https://ice1.somafm.com/groovesalad-128-mp3',
+  url_resolved:'https://ice1.somafm.com/groovesalad-128-mp3'
 };
 
 async function search(){
@@ -192,8 +205,14 @@ async function search(){
     stations=(d||[]).filter(good)
       .filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode)
       .sort((a,b)=>score(b)-score(a)).slice(0,70);
-    if((!selectedCountryCode||selectedCountryCode==='FR') && !q.value.trim() && !tag.value){
-      stations=[FIP_TEST,...stations.filter(s=>s.stationuuid!==FIP_TEST.stationuuid)];
+    if(!q.value.trim() && !tag.value){
+      if(!selectedCountryCode){
+        stations=[FIP_TEST,SOMA_TEST,...stations.filter(s=>![FIP_TEST.stationuuid,SOMA_TEST.stationuuid].includes(s.stationuuid))];
+      } else if(selectedCountryCode==='FR'){
+        stations=[FIP_TEST,...stations.filter(s=>s.stationuuid!==FIP_TEST.stationuuid)];
+      } else if(selectedCountryCode==='US'){
+        stations=[SOMA_TEST,...stations.filter(s=>s.stationuuid!==SOMA_TEST.stationuuid)];
+      }
     }
     render(stations);
     const label=selectedCountryCode?' en '+regionName(selectedCountryCode):'';
@@ -302,7 +321,6 @@ q.onkeydown=e=>{if(e.key==='Enter')search()};
 tag.onchange=search;
 $('all').onclick=()=>{mode='all';$('all').classList.add('active');$('favs').classList.remove('active');render(stations);status.textContent=stations.length+' radios affichées.'};
 $('favs').onclick=showFavs;
-$('pause').onclick=async()=>{if(audio.paused){try{await audio.play();$('pause').textContent='Pause'}catch{}}else{audio.pause();$('pause').textContent='Lecture'}};
 $('stop').onclick=()=>{stop();player.classList.remove('show');status.textContent='Lecture arrêtée.'};
 
 loadCountries();
