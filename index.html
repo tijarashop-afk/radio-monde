@@ -165,6 +165,21 @@ function render(arr){
   })
 }
 
+const FIP_TEST={
+  stationuuid:'official-fip-test',
+  name:'FIP — flux officiel',
+  country:'France',
+  countrycode:'FR',
+  codec:'MP3',
+  bitrate:128,
+  hls:0,
+  lastcheckok:1,
+  ssl_error:0,
+  favicon:'',
+  url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi',
+  url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi'
+};
+
 async function search(){
   mode='all';$('all').classList.add('active');$('favs').classList.remove('active');
   status.textContent='Recherche…';
@@ -177,6 +192,9 @@ async function search(){
     stations=(d||[]).filter(good)
       .filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode)
       .sort((a,b)=>score(b)-score(a)).slice(0,70);
+    if((!selectedCountryCode||selectedCountryCode==='FR') && !q.value.trim() && !tag.value){
+      stations=[FIP_TEST,...stations.filter(s=>s.stationuuid!==FIP_TEST.stationuuid)];
+    }
     render(stations);
     const label=selectedCountryCode?' en '+regionName(selectedCountryCode):'';
     status.textContent=stations.length+' radios compatibles trouvées'+label+'.';
@@ -189,13 +207,29 @@ function stop(){
   if(hls){try{hls.destroy()}catch{}hls=null}
   audio.pause();audio.removeAttribute('src');audio.load();
 }
-function waitPlay(ms=14000){
-  return new Promise((res,rej)=>{
+function playNativeUrl(url, timeoutMs=12000){
+  return new Promise((resolve,reject)=>{
     let done=false;
-    const finish=(ok,e)=>{if(done)return;done=true;clearTimeout(t);audio.removeEventListener('playing',okf);audio.removeEventListener('error',erf);ok?res():rej(e)};
-    const okf=()=>finish(true),erf=()=>finish(false,Error(audio.error?'media '+audio.error.code:'media error'));
-    const t=setTimeout(()=>finish(false,Error('timeout')),ms);
-    audio.addEventListener('playing',okf,{once:true});audio.addEventListener('error',erf,{once:true});
+    const finish=(ok,e)=>{
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      audio.removeEventListener('playing',onPlaying);
+      audio.removeEventListener('error',onError);
+      ok?resolve():reject(e||Error('lecture impossible'));
+    };
+    const onPlaying=()=>finish(true);
+    const onError=()=>finish(false,Error(audio.error?'media '+audio.error.code:'media error'));
+    const timer=setTimeout(()=>finish(false,Error('timeout')),timeoutMs);
+    audio.addEventListener('playing',onPlaying,{once:true});
+    audio.addEventListener('error',onError,{once:true});
+    audio.src=url;
+    audio.load();
+    const p=audio.play();
+    if(p&&typeof p.then==='function'){
+      p.then(()=>{ if(!audio.paused && audio.readyState>=2) finish(true); })
+       .catch(e=>finish(false,e));
+    }
   });
 }
 async function tryUrl(url,s){
@@ -208,21 +242,18 @@ async function tryUrl(url,s){
       let settled=false;
       const finish=(ok,e)=>{if(settled)return;settled=true;clearTimeout(timer);ok?res():rej(e)};
       hls=new Hls({enableWorker:true,maxBufferLength:20});
+      hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(false,Error(d.details||'HLS error'))});
+      audio.addEventListener('playing',()=>finish(true),{once:true});
       hls.attachMedia(audio);
       hls.on(Hls.Events.MEDIA_ATTACHED,()=>{
         hls.loadSource(url);
-        // Important mobile: start play request while still linked to the user's tap.
-        audio.play().catch(()=>{});
+        const p=audio.play();
+        if(p&&p.catch)p.catch(e=>finish(false,e));
       });
-      hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(false,Error(d.details||'HLS error'))});
-      audio.addEventListener('playing',()=>finish(true),{once:true});
       const timer=setTimeout(()=>finish(false,Error('HLS timeout')),15000);
     });
   }
-  audio.src=url;audio.load();
-  const playPromise=audio.play(); // called immediately from the user's click for the first candidate
-  await playPromise;
-  await waitPlay();
+  await playNativeUrl(url,12000);
 }
 async function freshUrls(s){
   const out=[s.url_resolved,s.url];
