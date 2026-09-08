@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>Radio Monde</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{width:40px;height:40px;padding:0}.play{background:#123d50}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:fixed;left:0;right:0;bottom:0;display:none;background:rgba(5,13,24,.97);border-top:1px solid var(--line);padding:12px}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center}.now{flex:1;min-width:0}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🌍 Radio Monde</h1>
+<p class="sub">Écoute des radios du monde entier, sans publicité ajoutée par l’application.</p>
+<div class="panel">
+<div class="controls">
+<input id="q" placeholder="Chercher une radio : FIP, BBC, jazz…">
+<select id="country">
+<option value="">🌐 Tous les pays</option><option value="FR">🇫🇷 France</option><option value="BE">🇧🇪 Belgique</option><option value="CH">🇨🇭 Suisse</option><option value="GB">🇬🇧 Royaume-Uni</option><option value="US">🇺🇸 États-Unis</option><option value="CA">🇨🇦 Canada</option><option value="ES">🇪🇸 Espagne</option><option value="IT">🇮🇹 Italie</option><option value="DE">🇩🇪 Allemagne</option><option value="PT">🇵🇹 Portugal</option><option value="MA">🇲🇦 Maroc</option><option value="DZ">🇩🇿 Algérie</option><option value="TN">🇹🇳 Tunisie</option><option value="SN">🇸🇳 Sénégal</option><option value="BR">🇧🇷 Brésil</option><option value="JP">🇯🇵 Japon</option><option value="VN">🇻🇳 Vietnam</option>
+</select>
+<select id="tag"><option value="">Tous les genres</option><option value="news">Actualités</option><option value="pop">Pop</option><option value="rock">Rock</option><option value="jazz">Jazz</option><option value="classical">Classique</option><option value="electronic">Électro</option><option value="sport">Sport</option></select>
+<button id="search" class="go">Rechercher</button>
+</div>
+</div>
+<div class="tabs"><button id="all" class="active">Radios</button><button id="favs">★ Favoris</button></div>
+<div id="status" class="status">Chargement…</div>
+<div id="list" class="grid"></div>
+<p class="note">Certaines stations peuvent diffuser leurs propres publicités à l’antenne. Les flux appartiennent aux stations et peuvent parfois être indisponibles ou bloqués selon le navigateur ou le pays.</p>
+</div>
+<div id="player" class="player"><div class="playerin"><div class="now"><strong id="nowName">—</strong><span id="nowMeta">—</span></div><button id="pause">Pause</button><button id="stop">Stop</button></div></div>
+<audio id="audio" preload="none" playsinline></audio>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.7.2/dist/hls.min.js"></script>
+<script>
+const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.info','https://at1.api.radio-browser.info'];
+const $=x=>document.getElementById(x), q=$('q'),country=$('country'),tag=$('tag'),list=$('list'),status=$('status'),audio=$('audio'),player=$('player'),nowName=$('nowName'),nowMeta=$('nowMeta');
+let stations=[], hls=null, mode='all', current=null;
+const key='radio-monde-favs';
+const favs=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};
+const save=x=>localStorage.setItem(key,JSON.stringify(x));
+const isFav=id=>favs().some(x=>x.stationuuid===id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(path){let err;for(const base of API){try{const c=new AbortController(),t=setTimeout(()=>c.abort(),9000);const r=await fetch(base+path,{signal:c.signal,cache:'no-store'});clearTimeout(t);if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}catch(e){err=e}}throw err}
+function good(s){return s&&s.stationuuid&&s.name&&String(s.lastcheckok)!=='0'&&String(s.ssl_error)!=='1'&&/^https:\/\//i.test(s.url_resolved||s.url||'')}
+function meta(s){return [s.country,s.codec?String(s.codec).toUpperCase():'',Number(s.bitrate)>0?s.bitrate+' kbps':'',Number(s.hls)===1?'HLS':''].filter(Boolean).join(' · ')}
+function render(arr){list.innerHTML='';if(!arr.length){list.innerHTML='<div class="empty">Aucune radio trouvée.</div>';return}arr.forEach(s=>{const card=document.createElement('div');card.className='station';let logo;if(s.favicon&&/^https:\/\//i.test(s.favicon)){logo=document.createElement('img');logo.className='logo';logo.src=s.favicon;logo.alt='';logo.referrerPolicy='no-referrer';logo.onerror=()=>{logo.outerHTML='<div class="logo ph">📻</div>'}}else{logo=document.createElement('div');logo.className='logo ph';logo.textContent='📻'}const info=document.createElement('div');info.innerHTML='<div class="name">'+esc(s.name.trim())+'</div><div class="meta">'+esc(meta(s)||'Radio internet')+'</div>';const actions=document.createElement('div');const fav=document.createElement('button');fav.className='fav';fav.textContent=isFav(s.stationuuid)?'★':'☆';fav.onclick=()=>{let f=favs(),i=f.findIndex(x=>x.stationuuid===s.stationuuid);if(i>=0)f.splice(i,1);else f.unshift(s);save(f.slice(0,200));fav.textContent=isFav(s.stationuuid)?'★':'☆';if(mode==='fav')showFavs()};const play=document.createElement('button');play.className='play';play.textContent='▶';play.onclick=()=>playStation(s);actions.append(fav,play);card.append(logo,info,actions);list.append(card)})}
+async function search(){mode='all';$('all').classList.add('active');$('favs').classList.remove('active');status.textContent='Recherche…';const p=new URLSearchParams({hidebroken:'true',is_https:'true',limit:'80',order:'clickcount',reverse:'true'});if(q.value.trim())p.set('name',q.value.trim());if(country.value)p.set('countrycode',country.value);if(tag.value)p.set('tag',tag.value);try{const d=await api('/json/stations/search?'+p);stations=d.filter(good).slice(0,60);render(stations);status.textContent=stations.length+' radios trouvées.'}catch(e){stations=[];render([]);status.textContent='Impossible de joindre l’annuaire pour le moment.'}}
+function stop(){if(hls){try{hls.destroy()}catch{}hls=null}audio.pause();audio.removeAttribute('src');audio.load()}
+async function freshUrls(s){const out=[s.url_resolved,s.url];try{const d=await api('/json/stations/byuuid/'+encodeURIComponent(s.stationuuid));if(d&&d[0])out.unshift(d[0].url_resolved,d[0].url)}catch{}try{const d=await api('/json/url/'+encodeURIComponent(s.stationuuid));if(d&&d.url)out.unshift(d.url)}catch{}return [...new Set(out.filter(u=>/^https:\/\//i.test(u)))]}
+function waitPlay(ms=12000){return new Promise((res,rej)=>{const t=setTimeout(()=>done(false,Error('timeout')),ms);function done(ok,e){clearTimeout(t);audio.removeEventListener('playing',okf);audio.removeEventListener('error',erf);ok?res():rej(e)}function okf(){done(true)}function erf(){done(false,Error('media error'))}audio.addEventListener('playing',okf,{once:true});audio.addEventListener('error',erf,{once:true})})}
+async function tryUrl(url,s){stop();const isHls=Number(s.hls)===1||/\.m3u8(?:$|\?)/i.test(url);if(isHls&&!audio.canPlayType('application/vnd.apple.mpegurl')&&window.Hls&&Hls.isSupported()){return new Promise((res,rej)=>{hls=new Hls();const timer=setTimeout(()=>rej(Error('HLS timeout')),15000);hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal){clearTimeout(timer);rej(Error(d.details||'HLS error'))}});hls.on(Hls.Events.MANIFEST_PARSED,async()=>{try{await audio.play();await waitPlay();clearTimeout(timer);res()}catch(e){rej(e)}});hls.loadSource(url);hls.attachMedia(audio)})}audio.src=url;audio.load();await audio.play();await waitPlay()}
+async function playStation(s){current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);player.classList.add('show');status.textContent='Connexion à '+s.name+'…';const urls=await freshUrls(s);for(const u of urls){try{await tryUrl(u,s);status.textContent='Lecture de '+s.name+'.';return}catch{}}status.textContent='Cette station ne peut pas être lue ici. Essaie-en une autre.'}
+function showFavs(){mode='fav';$('all').classList.remove('active');$('favs').classList.add('active');const f=favs().filter(good);render(f);status.textContent=f.length?f.length+' favori(s).':'Aucun favori.'}
+$('search').onclick=search;q.onkeydown=e=>{if(e.key==='Enter')search()};$('all').onclick=()=>{mode='all';$('all').classList.add('active');$('favs').classList.remove('active');render(stations);status.textContent=stations.length+' radios affichées.'};$('favs').onclick=showFavs;$('pause').onclick=async()=>{if(audio.paused){try{await audio.play();$('pause').textContent='Pause'}catch{}}else{audio.pause();$('pause').textContent='Lecture'}};$('stop').onclick=()=>{stop();player.classList.remove('show');status.textContent='Lecture arrêtée.'};
+search();
+</script>
+</body>
+</html>
