@@ -61,10 +61,15 @@ function setMediaState(state){
 }
 function scheduleReconnect(reason){
   if(userStopped || !current || reconnectTimer || reconnectAttempts>=3) return;
-  reconnectAttempts++;
-  status.textContent='Connexion interrompue — reconnexion '+reconnectAttempts+'/3…';
+  const delayMs = reason==='stalled' ? 7000 : 1500;
   reconnectTimer=setTimeout(async()=>{
     reconnectTimer=null;
+    if(!audio.paused && audio.readyState>=2){
+      reconnectAttempts=0;
+      return;
+    }
+    reconnectAttempts++;
+    status.textContent='Connexion interrompue — reconnexion '+reconnectAttempts+'/3…';
     const s=current, u=s&&(s.url_resolved||s.url);
     if(!u || userStopped) return;
     try{
@@ -75,7 +80,7 @@ function scheduleReconnect(reason){
     }catch{
       scheduleReconnect(reason);
     }
-  },1500);
+  },delayMs);
 }
 const key='radio-monde-favs';
 const favs=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};
