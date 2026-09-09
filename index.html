@@ -7,7 +7,7 @@
 <title>Radio Monde</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.retrying{color:#facc15!important}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -379,6 +379,72 @@ async function playStation(s,button){
   button.disabled=false;
   status.textContent='Cette station refuse la lecture dans ce navigateur ou son flux est indisponible. Essaie une autre station.';
 }
+function updateMediaSession(s){
+  if(!('mediaSession' in navigator) || !s) return;
+  try{
+    navigator.mediaSession.metadata=new MediaMetadata({
+      title:s.name||'Radio Monde',
+      artist:s.country||'Radio Monde',
+      album:'Radio Monde',
+      artwork:s.favicon&&/^https:\/\//i.test(s.favicon)?[
+        {src:s.favicon,sizes:'512x512'}
+      ]:[]
+    });
+    navigator.mediaSession.setActionHandler('play',async()=>{
+      try{
+        manualStop=false;
+        if(audio.src){await audio.play()}
+        else if(lastPlayedUrl&&current){await tryUrl(lastPlayedUrl,current)}
+      }catch{}
+    });
+    navigator.mediaSession.setActionHandler('pause',()=>audio.pause());
+    navigator.mediaSession.setActionHandler('stop',()=>{
+      stop(true);
+      player.classList.remove('show');
+      status.textContent='Lecture arrêtée.';
+    });
+  }catch{}
+}
+
+async function reconnectCurrent(reason){
+  if(manualStop || !current || document.visibilityState==='hidden' && navigator.onLine===false) return;
+  if(reconnectTimer) return;
+  reconnectAttempts++;
+  const delayMs=Math.min(30000, 2000*Math.pow(2,Math.min(reconnectAttempts-1,4)));
+  status.textContent='Connexion interrompue. Reconnexion automatique…';
+  status.classList.add('retrying');
+  reconnectTimer=setTimeout(async()=>{
+    reconnectTimer=null;
+    try{
+      const urls=await freshUrls(current);
+      const candidates=[lastPlayedUrl,...urls].filter(Boolean);
+      for(const u of [...new Set(candidates)]){
+        try{
+          await tryUrl(u,current);
+          lastPlayedUrl=u;
+          reconnectAttempts=0;
+          manualStop=false;
+          updateMediaSession(current);
+          status.classList.remove('retrying');
+          status.textContent='▶ Reconnecté à '+current.name+'.';
+          return;
+        }catch{}
+      }
+    }catch{}
+    status.classList.remove('retrying');
+    if(!manualStop && reconnectAttempts<8) reconnectCurrent('retry');
+    else status.textContent='La radio a coupé son flux. Relance-la manuellement.';
+  },delayMs);
+}
+
+audio.addEventListener('ended',()=>reconnectCurrent('ended'));
+audio.addEventListener('stalled',()=>reconnectCurrent('stalled'));
+audio.addEventListener('error',()=>reconnectCurrent('error'));
+audio.addEventListener('pause',()=>{
+  if(!manualStop && !audio.ended && audio.currentTime===0 && lastPlayedUrl) reconnectCurrent('pause');
+});
+window.addEventListener('online',()=>{if(current&&!manualStop&&audio.paused) reconnectCurrent('online')});
+
 function showFavs(){
   mode='fav';$('all').classList.remove('active');$('favs').classList.add('active');
   const f=favs().filter(good).filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode);
