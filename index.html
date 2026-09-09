@@ -7,7 +7,7 @@
 <title>Radio Monde</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.retrying{color:#facc15!important}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.retrying{color:#facc15!important}.status.ok{color:#86efac}.status.bad{color:#fca5a5}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -35,99 +35,107 @@
 <script>
 const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.info','https://at1.api.radio-browser.info'];
 const ISO_CODES='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
-const $=x=>document.getElementById(x), q=$('q'),tag=$('tag'),list=$('list'),status=$('status'),audio=$('audio'),player=$('player'),nowName=$('nowName'),nowMeta=$('nowMeta'),countrySearch=$('countrySearch'),countryMenu=$('countryMenu'),countryPicker=$('countryPicker');
-let stations=[], hls=null, mode='all', current=null, selectedCountryCode='', countries=[];
-let userStopped=false, reconnectTimer=null, reconnectAttempts=0;
+const $=x=>document.getElementById(x);
+const q=$('q'), tag=$('tag'), list=$('list'), status=$('status'), audio=$('audio'), player=$('player'),
+      nowName=$('nowName'), nowMeta=$('nowMeta'), countrySearch=$('countrySearch'),
+      countryMenu=$('countryMenu'), countryPicker=$('countryPicker');
+
+let stations=[], countries=[], selectedCountryCode='', mode='all';
+let current=null, hls=null, playToken=0, reconnectTimer=null, reconnectAttempts=0;
+let userStopped=true, switchingStation=false;
+
 status.after(player);
 
-function setMediaSession(s){
-  if(!('mediaSession' in navigator) || !s) return;
-  try{
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title:s.name || 'Radio Monde',
-      artist:s.country || 'Radio en direct',
-      album:'Radio Monde'
-    });
-    navigator.mediaSession.playbackState='playing';
-    navigator.mediaSession.setActionHandler('play',()=>audio.play().catch(()=>{}));
-    navigator.mediaSession.setActionHandler('pause',()=>audio.pause());
-    navigator.mediaSession.setActionHandler('stop',()=>stop(true));
-  }catch{}
-}
-function setMediaState(state){
-  if('mediaSession' in navigator){
-    try{navigator.mediaSession.playbackState=state}catch{}
-  }
-}
-function scheduleReconnect(reason){
-  if(userStopped || !current || reconnectTimer || reconnectAttempts>=3) return;
-  const delayMs = reason==='stalled' ? 7000 : 1500;
-  reconnectTimer=setTimeout(async()=>{
-    reconnectTimer=null;
-    if(!audio.paused && audio.readyState>=2){
-      reconnectAttempts=0;
-      return;
-    }
-    reconnectAttempts++;
-    status.textContent='Connexion interrompue — reconnexion '+reconnectAttempts+'/3…';
-    const s=current, u=s&&(s.url_resolved||s.url);
-    if(!u || userStopped) return;
-    try{
-      await tryUrl(u,s);
-      reconnectAttempts=0;
-      setMediaSession(s);
-      status.textContent='▶ Lecture reprise : '+s.name+'.';
-    }catch{
-      scheduleReconnect(reason);
-    }
-  },delayMs);
-}
-const key='radio-monde-favs';
-const favs=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};
-const save=x=>localStorage.setItem(key,JSON.stringify(x));
+const FAV_KEY='radio-monde-favs';
+const WORKING_KEY='radio-monde-working-urls-v1';
+
+const favs=()=>{try{return JSON.parse(localStorage.getItem(FAV_KEY)||'[]')}catch{return[]}};
+const saveFavs=x=>localStorage.setItem(FAV_KEY,JSON.stringify(x));
 const isFav=id=>favs().some(x=>x.stationuuid===id);
+const workingUrls=()=>{try{return JSON.parse(localStorage.getItem(WORKING_KEY)||'{}')}catch{return{}}};
+const saveWorkingUrl=(s,url)=>{
+  if(!s?.stationuuid||!url)return;
+  const map=workingUrls();
+  map[s.stationuuid]={url,at:Date.now()};
+  const entries=Object.entries(map).sort((a,b)=>(b[1]?.at||0)-(a[1]?.at||0)).slice(0,250);
+  localStorage.setItem(WORKING_KEY,JSON.stringify(Object.fromEntries(entries)));
+};
+const getWorkingUrl=s=>workingUrls()[s?.stationuuid]?.url||'';
+
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const delay=ms=>new Promise(r=>setTimeout(r,ms));
 const flag=code=>code&&code.length===2?String.fromCodePoint(...[...code.toUpperCase()].map(c=>127397+c.charCodeAt())):'🌐';
-let regionNames;try{regionNames=new Intl.DisplayNames(['fr'],{type:'region'})}catch{}
+let regionNames; try{regionNames=new Intl.DisplayNames(['fr'],{type:'region'})}catch{}
 const regionName=code=>regionNames?regionNames.of(code):code;
+const setStatus=(text,type='')=>{
+  status.classList.remove('ok','bad','retrying');
+  if(type)status.classList.add(type);
+  status.textContent=text;
+};
 
 async function api(path){
-  let err;
+  let lastErr;
   for(const base of API){
     try{
-      const c=new AbortController(),t=setTimeout(()=>c.abort(),9000);
-      const r=await fetch(base+path,{signal:c.signal,cache:'no-store'});
-      clearTimeout(t);
+      const ctl=new AbortController();
+      const timer=setTimeout(()=>ctl.abort(),9000);
+      const r=await fetch(base+path,{signal:ctl.signal,cache:'no-store'});
+      clearTimeout(timer);
       if(!r.ok)throw Error('HTTP '+r.status);
       return await r.json();
-    }catch(e){err=e}
+    }catch(e){lastErr=e}
   }
-  throw err
+  throw lastErr||Error('API indisponible');
 }
 
 async function loadCountries(){
   let counts={};
   try{
     const d=await api('/json/countrycodes?hidebroken=true&order=name');
-    for(const x of d||[]) if(x&&x.name) counts[String(x.name).toUpperCase()]=Number(x.stationcount)||0;
+    for(const x of d||[]) if(x?.name) counts[String(x.name).toUpperCase()]=Number(x.stationcount)||0;
   }catch{}
   countries=ISO_CODES.map(code=>({code,name:regionName(code)||code,count:counts[code]||0}))
     .sort((a,b)=>a.name.localeCompare(b.name,'fr',{sensitivity:'base'}));
   renderCountryMenu('');
 }
 
+function cleanCountryInput(v){
+  return String(v||'').replace(/^[\p{Regional_Indicator}]{2}\s*/u,'').trim();
+}
+function findCountry(raw){
+  const term=cleanCountryInput(raw).toLocaleLowerCase('fr');
+  if(!term)return null;
+  let found=countries.find(c=>c.code.toLowerCase()===term||c.name.toLocaleLowerCase('fr')===term);
+  if(found)return found;
+  const starts=countries.filter(c=>c.name.toLocaleLowerCase('fr').startsWith(term));
+  return starts.length===1?starts[0]:null;
+}
+function resolveCountryInput(){
+  if(selectedCountryCode)return true;
+  const raw=cleanCountryInput(countrySearch.value);
+  if(!raw)return true;
+  const found=findCountry(raw);
+  if(!found){
+    setStatus('🔴 Pays non reconnu. Choisis un pays dans la liste.','bad');
+    return false;
+  }
+  selectedCountryCode=found.code;
+  countrySearch.value=flag(found.code)+' '+found.name;
+  countryMenu.classList.remove('show');
+  return true;
+}
+
 function renderCountryMenu(filter){
-  const term=String(filter||'').trim().toLocaleLowerCase('fr');
+  const term=cleanCountryInput(filter).toLocaleLowerCase('fr');
   const arr=countries.filter(c=>!term||c.name.toLocaleLowerCase('fr').includes(term)||c.code.toLowerCase().includes(term));
   countryMenu.innerHTML='';
   const all=document.createElement('button');
-  all.type='button';all.className='countryOption';
+  all.type='button'; all.className='countryOption';
   all.innerHTML='<span>🌐 Tous les pays du monde</span><span class="countryCount">249 pays</span>';
   all.onclick=()=>selectCountry('');
   countryMenu.appendChild(all);
   for(const c of arr){
-    const b=document.createElement('button');b.type='button';b.className='countryOption';
+    const b=document.createElement('button');
+    b.type='button'; b.className='countryOption';
     b.innerHTML='<span>'+flag(c.code)+' '+esc(c.name)+'</span><span class="countryCount">'+(c.count?c.count+' radios':'0 radio')+'</span>';
     b.onclick=()=>selectCountry(c.code);
     countryMenu.appendChild(b);
@@ -145,22 +153,21 @@ function selectCountry(code){
 countrySearch.addEventListener('focus',()=>renderCountryMenu(countrySearch.value));
 countrySearch.addEventListener('input',()=>{
   selectedCountryCode='';
-  renderCountryMenu(countrySearch.value.replace(/^..\s+/,''));
+  renderCountryMenu(countrySearch.value);
 });
 countrySearch.addEventListener('keydown',e=>{
   if(e.key==='Escape')countryMenu.classList.remove('show');
   if(e.key==='Enter'){
     e.preventDefault();
-    const raw=countrySearch.value.replace(/^..\s+/,'').trim();
-    const found=countries.find(c=>c.code.toLowerCase()===raw.toLowerCase()||c.name.toLocaleLowerCase('fr')===raw.toLocaleLowerCase('fr'));
-    if(found)selectCountry(found.code);
-    else if(!raw)selectCountry('');
+    if(resolveCountryInput())search();
   }
 });
-document.addEventListener('pointerdown',e=>{if(!countryPicker.contains(e.target))countryMenu.classList.remove('show')});
+document.addEventListener('pointerdown',e=>{
+  if(!countryPicker.contains(e.target))countryMenu.classList.remove('show');
+});
 
 function supportedCodec(s){
-  const c=String(s.codec||'').toUpperCase();
+  const c=String(s?.codec||'').toUpperCase();
   if(!c)return true;
   if(c.includes('MP3')||c==='MPEG')return !!audio.canPlayType('audio/mpeg');
   if(c.includes('AAC'))return !!(audio.canPlayType('audio/aac')||audio.canPlayType('audio/mp4; codecs="mp4a.40.2"'));
@@ -171,7 +178,7 @@ function supportedCodec(s){
 }
 function good(s){
   const u=s&&(s.url_resolved||s.url||'');
-  return s&&s.stationuuid&&s.name&&String(s.lastcheckok)!=='0'&&String(s.ssl_error)!=='1'&&/^https:\/\//i.test(u)&&supportedCodec(s);
+  return !!(s?.stationuuid&&s?.name&&String(s.lastcheckok)!=='0'&&String(s.ssl_error)!=='1'&&/^https:\/\//i.test(u)&&supportedCodec(s));
 }
 function score(s){
   let n=0;
@@ -182,292 +189,440 @@ function score(s){
   if(c.includes('MP3'))n+=20;
   else if(c.includes('AAC'))n+=15;
   if(Number(s.hls)===0)n+=10;
+  if(getWorkingUrl(s))n+=35;
   n+=Math.min(20,Math.log10((Number(s.clickcount)||0)+1)*4);
   return n;
 }
 function meta(s){
-  return [s.countrycode?flag(s.countrycode)+' '+(s.country||regionName(s.countrycode)):s.country,s.codec?String(s.codec).toUpperCase():'',Number(s.bitrate)>0?s.bitrate+' kbps':'',Number(s.hls)===1?'HLS':''].filter(Boolean).join(' · ');
+  return [
+    s.countrycode?flag(s.countrycode)+' '+(s.country||regionName(s.countrycode)):s.country,
+    s.codec?String(s.codec).toUpperCase():'',
+    Number(s.bitrate)>0?s.bitrate+' kbps':'',
+    Number(s.hls)===1?'HLS':''
+  ].filter(Boolean).join(' · ');
 }
+
 function render(arr){
   list.innerHTML='';
-  if(!arr.length){list.innerHTML='<div class="empty">Aucune radio compatible trouvée pour ce choix.</div>';return}
+  if(!arr.length){
+    list.innerHTML='<div class="empty">Aucune radio compatible trouvée pour ce choix.</div>';
+    return;
+  }
   arr.forEach(s=>{
-    const card=document.createElement('div');card.className='station';
+    const card=document.createElement('div');
+    card.className='station'; card.tabIndex=0; card.setAttribute('role','button');
+    card.setAttribute('aria-label','Écouter '+s.name);
+
     let logo;
     if(s.favicon&&/^https:\/\//i.test(s.favicon)){
-      logo=document.createElement('img');logo.className='logo';logo.src=s.favicon;logo.alt='';logo.referrerPolicy='no-referrer';
-      logo.onerror=()=>{logo.outerHTML='<div class="logo ph">📻</div>'}
-    }else{logo=document.createElement('div');logo.className='logo ph';logo.textContent='📻'}
+      logo=document.createElement('img');
+      logo.className='logo'; logo.src=s.favicon; logo.alt=''; logo.referrerPolicy='no-referrer';
+      logo.onerror=()=>{logo.outerHTML='<div class="logo ph">📻</div>'};
+    }else{
+      logo=document.createElement('div'); logo.className='logo ph'; logo.textContent='📻';
+    }
+
     const info=document.createElement('div');
     info.innerHTML='<div class="name">'+esc(s.name.trim())+'</div><div class="meta">'+esc(meta(s)||'Radio internet')+'</div>';
+
     const actions=document.createElement('div');
-    const fav=document.createElement('button');fav.className='fav';fav.textContent=isFav(s.stationuuid)?'★':'☆';
-    fav.onclick=()=>{let f=favs(),i=f.findIndex(x=>x.stationuuid===s.stationuuid);if(i>=0)f.splice(i,1);else f.unshift(s);save(f.slice(0,200));fav.textContent=isFav(s.stationuuid)?'★':'☆';if(mode==='fav')showFavs()};
-    const play=document.createElement('button');play.className='play';play.textContent='▶ Écouter';play.title='Écouter';
+    const fav=document.createElement('button');
+    fav.className='fav'; fav.textContent=isFav(s.stationuuid)?'★':'☆';
+    fav.onclick=e=>{
+      e.stopPropagation();
+      let f=favs(),i=f.findIndex(x=>x.stationuuid===s.stationuuid);
+      if(i>=0)f.splice(i,1); else f.unshift(s);
+      saveFavs(f.slice(0,200));
+      fav.textContent=isFav(s.stationuuid)?'★':'☆';
+      if(mode==='fav')showFavs();
+    };
+
+    const play=document.createElement('button');
+    play.className='play'; play.textContent='▶ Écouter';
     play.onclick=e=>{e.stopPropagation();playStation(s,play)};
-    fav.onclick=((original)=>e=>{e.stopPropagation();original()})(fav.onclick);
-    card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Écouter '+s.name);
+
     card.onclick=()=>playStation(s,play);
-    card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();playStation(s,play)}};
-    actions.append(fav,play);card.append(logo,info,actions);list.append(card)
-  })
+    card.onkeydown=e=>{
+      if(e.key==='Enter'||e.key===' '){
+        e.preventDefault();
+        playStation(s,play);
+      }
+    };
+    actions.append(fav,play);
+    card.append(logo,info,actions);
+    list.append(card);
+  });
 }
 
 const FIP_TEST={
-  stationuuid:'official-fip-test',
-  name:'FIP — flux officiel',
-  country:'France',
-  countrycode:'FR',
-  codec:'MP3',
-  bitrate:128,
-  hls:0,
-  lastcheckok:1,
-  ssl_error:0,
-  favicon:'',
+  stationuuid:'official-fip-test',name:'FIP — flux officiel',country:'France',countrycode:'FR',
+  codec:'MP3',bitrate:128,hls:0,lastcheckok:1,ssl_error:0,favicon:'',
   url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi',
   url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi'
 };
 const FRANCE_MUSIQUE={
-  stationuuid:'official-france-musique',
-  name:'France Musique — flux direct',
-  country:'France',
-  countrycode:'FR',
-  codec:'MP3',
-  bitrate:128,
-  hls:0,
-  lastcheckok:1,
-  ssl_error:0,
-  favicon:'',
+  stationuuid:'official-france-musique',name:'France Musique — flux direct',country:'France',countrycode:'FR',
+  codec:'MP3',bitrate:128,hls:0,lastcheckok:1,ssl_error:0,favicon:'',
   url:'https://icecast.radiofrance.fr/francemusique-midfi.mp3',
   url_resolved:'https://icecast.radiofrance.fr/francemusique-midfi.mp3'
 };
 const SOMA_TEST={
-  stationuuid:'official-soma-test',
-  name:'SomaFM Groove Salad — test audio',
-  country:'United States',
-  countrycode:'US',
-  codec:'MP3',
-  bitrate:128,
-  hls:0,
-  lastcheckok:1,
-  ssl_error:0,
-  favicon:'',
+  stationuuid:'official-soma-test',name:'SomaFM Groove Salad — test audio',country:'United States',countrycode:'US',
+  codec:'MP3',bitrate:128,hls:0,lastcheckok:1,ssl_error:0,favicon:'',
   url:'https://ice5.somafm.com/groovesalad-128-mp3',
   url_resolved:'https://ice5.somafm.com/groovesalad-128-mp3'
 };
 
 async function search(){
-  mode='all';$('all').classList.add('active');$('favs').classList.remove('active');
-  status.textContent='Recherche…';
+  if(!resolveCountryInput())return;
+  mode='all';
+  $('all').classList.add('active'); $('favs').classList.remove('active');
+  setStatus('Recherche…');
+
   const p=new URLSearchParams({hidebroken:'true',is_https:'true',limit:'120',order:'clickcount',reverse:'true'});
   if(q.value.trim())p.set('name',q.value.trim());
   if(selectedCountryCode)p.set('countrycode',selectedCountryCode);
   if(tag.value)p.set('tag',tag.value);
+
   try{
     const d=await api('/json/stations/search?'+p.toString());
     stations=(d||[]).filter(good)
       .filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode)
-      .sort((a,b)=>score(b)-score(a)).slice(0,70);
-    if(!q.value.trim() && !tag.value){
+      .sort((a,b)=>score(b)-score(a))
+      .slice(0,70);
+
+    if(!q.value.trim()&&!tag.value){
       if(!selectedCountryCode){
         stations=[FIP_TEST,FRANCE_MUSIQUE,SOMA_TEST,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid,SOMA_TEST.stationuuid].includes(s.stationuuid))];
-      } else if(selectedCountryCode==='FR'){
+      }else if(selectedCountryCode==='FR'){
         stations=[FIP_TEST,FRANCE_MUSIQUE,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid].includes(s.stationuuid))];
-      } else if(selectedCountryCode==='US'){
+      }else if(selectedCountryCode==='US'){
         stations=[SOMA_TEST,...stations.filter(s=>s.stationuuid!==SOMA_TEST.stationuuid)];
       }
     }
+
     render(stations);
     const label=selectedCountryCode?' en '+regionName(selectedCountryCode):'';
-    status.textContent=stations.length+' radios compatibles trouvées'+label+'.';
+    setStatus('🟢 '+stations.length+' radios compatibles trouvées'+label+'.','ok');
   }catch(e){
-    stations=[];render([]);status.textContent='Impossible de joindre l’annuaire pour le moment.';
+    stations=[];
+    render([]);
+    setStatus('🔴 Impossible de joindre l’annuaire pour le moment.','bad');
   }
 }
 
-function stop(byUser=false){
-  if(byUser) userStopped=true;
-  if(reconnectTimer){clearTimeout(reconnectTimer);reconnectTimer=null}
-  if(hls){try{hls.destroy()}catch{}hls=null}
-  audio.pause();audio.removeAttribute('src');audio.load();
+function clearReconnect(){
+  if(reconnectTimer){
+    clearTimeout(reconnectTimer);
+    reconnectTimer=null;
+  }
+}
+function resetPlaybackEngine(){
+  clearReconnect();
+  if(hls){try{hls.destroy()}catch{} hls=null}
+  try{audio.pause()}catch{}
+  audio.removeAttribute('src');
+  try{audio.load()}catch{}
+}
+function stop(byUser=true){
+  if(byUser){
+    userStopped=true;
+    playToken++;
+    current=null;
+  }
+  switchingStation=true;
+  resetPlaybackEngine();
+  switchingStation=false;
+  reconnectAttempts=0;
   setMediaState('none');
 }
-function playNativeUrl(url, timeoutMs=12000){
-  return new Promise((resolve,reject)=>{
-    let done=false;
-    const finish=(ok,e)=>{
-      if(done)return;
-      done=true;
-      clearTimeout(timer);
-      audio.removeEventListener('playing',onPlaying);
-      audio.removeEventListener('error',onError);
-      ok?resolve():reject(e||Error('lecture impossible'));
-    };
-    const onPlaying=()=>finish(true);
-    const onError=()=>finish(false,Error(audio.error?'media '+audio.error.code:'media error'));
-    const timer=setTimeout(()=>finish(false,Error('timeout')),timeoutMs);
-    audio.addEventListener('playing',onPlaying,{once:true});
-    audio.addEventListener('error',onError,{once:true});
-    audio.src=url;
-    audio.load();
-    const p=audio.play();
-    if(p&&typeof p.then==='function'){
-      p.then(()=>{ if(!audio.paused && audio.readyState>=2) finish(true); })
-       .catch(e=>finish(false,e));
-    }
-  });
-}
-async function tryUrl(url,s){
-  if(!/^https:\/\//i.test(url||''))throw Error('non https');
-  stop(false);
-  const isHls=Number(s.hls)===1||/\.m3u8(?:$|\?)/i.test(url);
-  const nativeHls=!!(audio.canPlayType('application/vnd.apple.mpegurl')||audio.canPlayType('application/x-mpegURL'));
-  if(isHls&&!nativeHls&&window.Hls&&Hls.isSupported()){
-    return new Promise((res,rej)=>{
-      let settled=false;
-      const finish=(ok,e)=>{if(settled)return;settled=true;clearTimeout(timer);ok?res():rej(e)};
-      hls=new Hls({enableWorker:true,maxBufferLength:20});
-      hls.on(Hls.Events.ERROR,(_,d)=>{if(d&&d.fatal)finish(false,Error(d.details||'HLS error'))});
-      audio.addEventListener('playing',()=>finish(true),{once:true});
-      hls.attachMedia(audio);
-      hls.on(Hls.Events.MEDIA_ATTACHED,()=>{
-        hls.loadSource(url);
-        const p=audio.play();
-        if(p&&p.catch)p.catch(e=>finish(false,e));
-      });
-      const timer=setTimeout(()=>finish(false,Error('HLS timeout')),15000);
-    });
-  }
-  await playNativeUrl(url,12000);
-}
-async function freshUrls(s){
-  const out=[s.url_resolved,s.url];
-  try{const d=await api('/json/stations/byuuid/'+encodeURIComponent(s.stationuuid));if(d&&d[0])out.push(d[0].url_resolved,d[0].url)}catch{}
-  try{const d=await api('/json/checks/'+encodeURIComponent(s.stationuuid)+'?limit=5');for(const c of d||[])if(Number(c.ok)===1&&c.urlcache)out.push(c.urlcache)}catch{}
-  return [...new Set(out.filter(u=>/^https:\/\//i.test(u)))];
-}
-async function exactAlternatives(s){
-  try{
-    const p=new URLSearchParams({name:s.name,nameExact:'true',hidebroken:'true',is_https:'true',limit:'15',order:'clickcount',reverse:'true'});
-    const d=await api('/json/stations/search?'+p.toString());
-    return (d||[]).filter(good).filter(x=>!selectedCountryCode||String(x.countrycode||'').toUpperCase()===selectedCountryCode);
-  }catch{return[]}
-}
-async function playStation(s,button){
-  userStopped=false; reconnectAttempts=0;
-  current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);player.classList.add('show');
-  setMediaSession(s);
-  player.scrollIntoView({behavior:'smooth',block:'nearest'});
-  button.disabled=true;status.textContent='Connexion à '+s.name+'…';
-  const errors=[];
-  const primary=s.url_resolved||s.url;
-  // First attempt happens before any network request so mobile browsers keep the tap permission.
-  if(primary){
-    try{await tryUrl(primary,s);setMediaSession(s);status.textContent='▶ Lecture de '+s.name+'.';button.disabled=false;return}catch(e){errors.push(e.message);status.textContent='Le navigateur a bloqué le démarrage automatique. Appuie sur ▶ dans le lecteur affiché juste au-dessus.'}
-  }
-  const urls=await freshUrls(s);
-  for(const u of urls){
-    if(u===primary)continue;
-    try{await tryUrl(u,s);setMediaSession(s);status.textContent='Lecture de '+s.name+' via un flux alternatif.';button.disabled=false;return}catch(e){errors.push(e.message)}
-  }
-  const alts=await exactAlternatives(s);
-  for(const alt of alts){
-    const u=alt.url_resolved||alt.url;
-    if(!u)continue;
-    try{await tryUrl(u,alt);current=alt;nowMeta.textContent=meta(alt);setMediaSession(alt);status.textContent='Lecture de '+s.name+' via une autre source.';button.disabled=false;return}catch(e){errors.push(e.message)}
-  }
-  button.disabled=false;
-  status.textContent='Cette station refuse la lecture dans ce navigateur ou son flux est indisponible. Essaie une autre station.';
-}
-function updateMediaSession(s){
-  if(!('mediaSession' in navigator) || !s) return;
+
+function setMediaSession(s){
+  if(!('mediaSession' in navigator)||!s)return;
   try{
     navigator.mediaSession.metadata=new MediaMetadata({
       title:s.name||'Radio Monde',
-      artist:s.country||'Radio Monde',
+      artist:s.country||'Radio en direct',
       album:'Radio Monde',
-      artwork:s.favicon&&/^https:\/\//i.test(s.favicon)?[
-        {src:s.favicon,sizes:'512x512'}
-      ]:[]
+      artwork:s.favicon&&/^https:\/\//i.test(s.favicon)?[{src:s.favicon}]:[]
     });
     navigator.mediaSession.setActionHandler('play',async()=>{
       try{
-        manualStop=false;
+        userStopped=false;
         if(audio.src){await audio.play()}
-        else if(lastPlayedUrl&&current){await tryUrl(lastPlayedUrl,current)}
+        else if(current){await reconnectNow('media-play')}
       }catch{}
     });
     navigator.mediaSession.setActionHandler('pause',()=>audio.pause());
     navigator.mediaSession.setActionHandler('stop',()=>{
       stop(true);
       player.classList.remove('show');
-      status.textContent='Lecture arrêtée.';
+      setStatus('Lecture arrêtée.');
     });
   }catch{}
 }
+function setMediaState(state){
+  if('mediaSession' in navigator){
+    try{navigator.mediaSession.playbackState=state}catch{}
+  }
+}
 
-async function reconnectCurrent(reason){
-  if(manualStop || !current || document.visibilityState==='hidden' && navigator.onLine===false) return;
-  if(reconnectTimer) return;
-  reconnectAttempts++;
-  const delayMs=Math.min(30000, 2000*Math.pow(2,Math.min(reconnectAttempts-1,4)));
-  status.textContent='Connexion interrompue. Reconnexion automatique…';
-  status.classList.add('retrying');
-  reconnectTimer=setTimeout(async()=>{
-    reconnectTimer=null;
+function playNativeUrl(url,token,timeoutMs=14000){
+  return new Promise((resolve,reject)=>{
+    let settled=false;
+    const finish=(ok,e)=>{
+      if(settled)return;
+      settled=true;
+      clearTimeout(timer);
+      audio.removeEventListener('playing',onPlaying);
+      audio.removeEventListener('error',onError);
+      if(token!==playToken)return reject(Error('superseded'));
+      ok?resolve():reject(e||Error('lecture impossible'));
+    };
+    const onPlaying=()=>finish(true);
+    const onError=()=>finish(false,Error(audio.error?'media '+audio.error.code:'media error'));
+    const timer=setTimeout(()=>finish(false,Error('timeout')),timeoutMs);
+
+    audio.addEventListener('playing',onPlaying,{once:true});
+    audio.addEventListener('error',onError,{once:true});
+    audio.src=url;
+    audio.load();
+    const p=audio.play();
+    if(p&&typeof p.catch==='function')p.catch(e=>finish(false,e));
+  });
+}
+
+async function tryUrl(url,s,token){
+  if(token!==playToken)throw Error('superseded');
+  if(!/^https:\/\//i.test(url||''))throw Error('non https');
+
+  switchingStation=true;
+  if(hls){try{hls.destroy()}catch{} hls=null}
+  try{audio.pause()}catch{}
+  audio.removeAttribute('src');
+  try{audio.load()}catch{}
+
+  const isHls=Number(s.hls)===1||/\.m3u8(?:$|\?)/i.test(url);
+  const nativeHls=!!(audio.canPlayType('application/vnd.apple.mpegurl')||audio.canPlayType('application/x-mpegURL'));
+
+  try{
+    if(isHls&&!nativeHls&&window.Hls&&Hls.isSupported()){
+      await new Promise((resolve,reject)=>{
+        let settled=false;
+        const finish=(ok,e)=>{
+          if(settled)return;
+          settled=true;
+          clearTimeout(timer);
+          if(token!==playToken)return reject(Error('superseded'));
+          ok?resolve():reject(e||Error('HLS error'));
+        };
+        hls=new Hls({enableWorker:true,maxBufferLength:20});
+        hls.on(Hls.Events.ERROR,(_,d)=>{if(d?.fatal)finish(false,Error(d.details||'HLS error'))});
+        audio.addEventListener('playing',()=>finish(true),{once:true});
+        hls.attachMedia(audio);
+        hls.on(Hls.Events.MEDIA_ATTACHED,()=>{
+          hls.loadSource(url);
+          const p=audio.play();
+          if(p&&p.catch)p.catch(e=>finish(false,e));
+        });
+        const timer=setTimeout(()=>finish(false,Error('HLS timeout')),16000);
+      });
+    }else{
+      await playNativeUrl(url,token,14000);
+    }
+    switchingStation=false;
+    return true;
+  }catch(e){
+    switchingStation=false;
+    throw e;
+  }
+}
+
+async function freshUrls(s){
+  if(String(s.stationuuid||'').startsWith('official-'))return [];
+  const out=[];
+  try{
+    const d=await api('/json/stations/byuuid/'+encodeURIComponent(s.stationuuid));
+    if(d?.[0])out.push(d[0].url_resolved,d[0].url);
+  }catch{}
+  try{
+    const d=await api('/json/checks/'+encodeURIComponent(s.stationuuid)+'?limit=5');
+    for(const c of d||[])if(Number(c.ok)===1&&c.urlcache)out.push(c.urlcache);
+  }catch{}
+  return out.filter(u=>/^https:\/\//i.test(u));
+}
+async function exactAlternatives(s){
+  if(String(s.stationuuid||'').startsWith('official-'))return [];
+  try{
+    const p=new URLSearchParams({name:s.name,nameExact:'true',hidebroken:'true',is_https:'true',limit:'12',order:'clickcount',reverse:'true'});
+    const d=await api('/json/stations/search?'+p.toString());
+    return (d||[]).filter(good)
+      .filter(x=>!selectedCountryCode||String(x.countrycode||'').toUpperCase()===selectedCountryCode);
+  }catch{return[]}
+}
+async function candidateUrls(s,includeNetwork=true){
+  const out=[getWorkingUrl(s),s.url_resolved,s.url];
+  if(includeNetwork)out.push(...await freshUrls(s));
+  return [...new Set(out.filter(u=>/^https:\/\//i.test(u)))];
+}
+
+async function markPlaying(s,url){
+  saveWorkingUrl(s,url);
+  reconnectAttempts=0;
+  userStopped=false;
+  setMediaSession(s);
+  setMediaState('playing');
+  setStatus('🟢 Lecture : '+s.name+'.','ok');
+}
+
+async function playStation(s,button){
+  const token=++playToken;
+  userStopped=false;
+  reconnectAttempts=0;
+  clearReconnect();
+  current=s;
+  nowName.textContent=s.name;
+  nowMeta.textContent=meta(s);
+  player.classList.add('show');
+  setMediaSession(s);
+  button.disabled=true;
+  setStatus('🟡 Connexion à '+s.name+'…','retrying');
+
+  // First attempt remains synchronous with the user's tap.
+  const first=getWorkingUrl(s)||s.url_resolved||s.url;
+  if(first){
     try{
-      const urls=await freshUrls(current);
-      const candidates=[lastPlayedUrl,...urls].filter(Boolean);
-      for(const u of [...new Set(candidates)]){
-        try{
-          await tryUrl(u,current);
-          lastPlayedUrl=u;
-          reconnectAttempts=0;
-          manualStop=false;
-          updateMediaSession(current);
-          status.classList.remove('retrying');
-          status.textContent='▶ Reconnecté à '+current.name+'.';
-          return;
-        }catch{}
+      await tryUrl(first,s,token);
+      if(token===playToken)await markPlaying(s,first);
+      button.disabled=false;
+      return;
+    }catch{}
+  }
+
+  const urls=await candidateUrls(s,true);
+  for(const u of urls){
+    if(token!==playToken)break;
+    if(u===first)continue;
+    try{
+      await tryUrl(u,s,token);
+      if(token===playToken)await markPlaying(s,u);
+      button.disabled=false;
+      return;
+    }catch{}
+  }
+
+  const alts=await exactAlternatives(s);
+  for(const alt of alts){
+    if(token!==playToken)break;
+    const u=getWorkingUrl(alt)||alt.url_resolved||alt.url;
+    if(!u)continue;
+    try{
+      await tryUrl(u,alt,token);
+      if(token===playToken){
+        current=alt;
+        nowMeta.textContent=meta(alt);
+        await markPlaying(alt,u);
+      }
+      button.disabled=false;
+      return;
+    }catch{}
+  }
+
+  button.disabled=false;
+  if(token===playToken){
+    setStatus('🔴 Flux indisponible dans ce navigateur. Essaie une autre station.','bad');
+  }
+}
+
+function reconnectDelay(attempt){
+  return [2000,4000,8000,15000,30000][Math.min(attempt,4)];
+}
+function scheduleReconnect(reason){
+  if(userStopped||switchingStation||!current||reconnectTimer)return;
+  if(reconnectAttempts>=5){
+    setStatus('🔴 Le flux a coupé après plusieurs tentatives. Relance la station.','bad');
+    return;
+  }
+  const token=playToken;
+  const delay=reconnectDelay(reconnectAttempts);
+  reconnectTimer=setTimeout(()=>{
+    reconnectTimer=null;
+    if(token!==playToken||userStopped||!current)return;
+    reconnectNow(reason);
+  },delay);
+  setStatus('🟡 Connexion interrompue — reconnexion automatique…','retrying');
+}
+async function reconnectNow(reason){
+  if(userStopped||switchingStation||!current)return;
+  const s=current;
+  const token=playToken;
+  reconnectAttempts++;
+  setStatus('🟡 Reconnexion '+reconnectAttempts+'/5 à '+s.name+'…','retrying');
+
+  const urls=await candidateUrls(s,true);
+  for(const u of urls){
+    if(token!==playToken||userStopped)return;
+    try{
+      await tryUrl(u,s,token);
+      if(token===playToken){
+        await markPlaying(s,u);
+        return;
       }
     }catch{}
-    status.classList.remove('retrying');
-    if(!manualStop && reconnectAttempts<8) reconnectCurrent('retry');
-    else status.textContent='La radio a coupé son flux. Relance-la manuellement.';
-  },delayMs);
+  }
+  if(token===playToken&&!userStopped)scheduleReconnect(reason);
 }
-
-audio.addEventListener('ended',()=>reconnectCurrent('ended'));
-audio.addEventListener('stalled',()=>reconnectCurrent('stalled'));
-audio.addEventListener('error',()=>reconnectCurrent('error'));
-audio.addEventListener('pause',()=>{
-  if(!manualStop && !audio.ended && audio.currentTime===0 && lastPlayedUrl) reconnectCurrent('pause');
-});
-window.addEventListener('online',()=>{if(current&&!manualStop&&audio.paused) reconnectCurrent('online')});
 
 function showFavs(){
-  mode='fav';$('all').classList.remove('active');$('favs').classList.add('active');
-  const f=favs().filter(good).filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode);
-  render(f);status.textContent=f.length?f.length+' favori(s).':'Aucun favori.';
+  mode='fav';
+  $('all').classList.remove('active'); $('favs').classList.add('active');
+  const f=favs().filter(good)
+    .filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode);
+  render(f);
+  setStatus(f.length?'🟢 '+f.length+' favori(s).':'Aucun favori.',f.length?'ok':'');
 }
 
-$('search').onclick=search;
-q.onkeydown=e=>{if(e.key==='Enter')search()};
+$('search').onclick=()=>{if(resolveCountryInput())search()};
+q.onkeydown=e=>{if(e.key==='Enter'&&resolveCountryInput())search()};
 tag.onchange=search;
-$('all').onclick=()=>{mode='all';$('all').classList.add('active');$('favs').classList.remove('active');render(stations);status.textContent=stations.length+' radios affichées.'};
+$('all').onclick=()=>{
+  mode='all'; $('all').classList.add('active'); $('favs').classList.remove('active');
+  render(stations); setStatus('🟢 '+stations.length+' radios affichées.','ok');
+};
 $('favs').onclick=showFavs;
-$('stop').onclick=()=>{stop(true);player.classList.remove('show');status.textContent='Lecture arrêtée.'};
+$('stop').onclick=()=>{
+  stop(true);
+  player.classList.remove('show');
+  setStatus('Lecture arrêtée.');
+};
 
 audio.addEventListener('playing',()=>{
+  clearReconnect();
   reconnectAttempts=0;
   setMediaState('playing');
-  if(current) setMediaSession(current);
+  if(current)setMediaSession(current);
 });
-audio.addEventListener('pause',()=>setMediaState('paused'));
-audio.addEventListener('ended',()=>scheduleReconnect('ended'));
-audio.addEventListener('error',()=>scheduleReconnect('error'));
-audio.addEventListener('stalled',()=>scheduleReconnect('stalled'));
-window.addEventListener('online',()=>{ if(current && audio.paused && !userStopped) scheduleReconnect('online'); });
+audio.addEventListener('pause',()=>{
+  setMediaState('paused');
+  // A deliberate pause is respected. We reconnect only on actual stream failure.
+});
+audio.addEventListener('ended',()=>{
+  if(!userStopped&&!switchingStation)scheduleReconnect('ended');
+});
+audio.addEventListener('error',()=>{
+  if(!userStopped&&!switchingStation)scheduleReconnect('error');
+});
+audio.addEventListener('stalled',()=>{
+  if(userStopped||switchingStation)return;
+  // Stalls are often temporary; only reconnect if playback does not recover.
+  const token=playToken;
+  setTimeout(()=>{
+    if(token===playToken&&!userStopped&&!switchingStation&&audio.readyState<3)scheduleReconnect('stalled');
+  },8000);
+});
+window.addEventListener('online',()=>{
+  if(current&&!userStopped&&audio.paused)scheduleReconnect('online');
+});
 
 loadCountries();
 search();
