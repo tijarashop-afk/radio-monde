@@ -37,7 +37,46 @@ const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.i
 const ISO_CODES='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
 const $=x=>document.getElementById(x), q=$('q'),tag=$('tag'),list=$('list'),status=$('status'),audio=$('audio'),player=$('player'),nowName=$('nowName'),nowMeta=$('nowMeta'),countrySearch=$('countrySearch'),countryMenu=$('countryMenu'),countryPicker=$('countryPicker');
 let stations=[], hls=null, mode='all', current=null, selectedCountryCode='', countries=[];
+let userStopped=false, reconnectTimer=null, reconnectAttempts=0;
 status.after(player);
+
+function setMediaSession(s){
+  if(!('mediaSession' in navigator) || !s) return;
+  try{
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title:s.name || 'Radio Monde',
+      artist:s.country || 'Radio en direct',
+      album:'Radio Monde'
+    });
+    navigator.mediaSession.playbackState='playing';
+    navigator.mediaSession.setActionHandler('play',()=>audio.play().catch(()=>{}));
+    navigator.mediaSession.setActionHandler('pause',()=>audio.pause());
+    navigator.mediaSession.setActionHandler('stop',()=>stop(true));
+  }catch{}
+}
+function setMediaState(state){
+  if('mediaSession' in navigator){
+    try{navigator.mediaSession.playbackState=state}catch{}
+  }
+}
+function scheduleReconnect(reason){
+  if(userStopped || !current || reconnectTimer || reconnectAttempts>=3) return;
+  reconnectAttempts++;
+  status.textContent='Connexion interrompue — reconnexion '+reconnectAttempts+'/3…';
+  reconnectTimer=setTimeout(async()=>{
+    reconnectTimer=null;
+    const s=current, u=s&&(s.url_resolved||s.url);
+    if(!u || userStopped) return;
+    try{
+      await tryUrl(u,s);
+      reconnectAttempts=0;
+      setMediaSession(s);
+      status.textContent='▶ Lecture reprise : '+s.name+'.';
+    }catch{
+      scheduleReconnect(reason);
+    }
+  },1500);
+}
 const key='radio-monde-favs';
 const favs=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};
 const save=x=>localStorage.setItem(key,JSON.stringify(x));
@@ -183,6 +222,20 @@ const FIP_TEST={
   url:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi',
   url_resolved:'https://icecast.radiofrance.fr/fip-midfi.mp3?id=openapi'
 };
+const FRANCE_MUSIQUE={
+  stationuuid:'official-france-musique',
+  name:'France Musique — flux direct',
+  country:'France',
+  countrycode:'FR',
+  codec:'MP3',
+  bitrate:128,
+  hls:0,
+  lastcheckok:1,
+  ssl_error:0,
+  favicon:'',
+  url:'https://icecast.radiofrance.fr/francemusique-midfi.mp3',
+  url_resolved:'https://icecast.radiofrance.fr/francemusique-midfi.mp3'
+};
 const SOMA_TEST={
   stationuuid:'official-soma-test',
   name:'SomaFM Groove Salad — test audio',
@@ -212,9 +265,9 @@ async function search(){
       .sort((a,b)=>score(b)-score(a)).slice(0,70);
     if(!q.value.trim() && !tag.value){
       if(!selectedCountryCode){
-        stations=[FIP_TEST,SOMA_TEST,...stations.filter(s=>![FIP_TEST.stationuuid,SOMA_TEST.stationuuid].includes(s.stationuuid))];
+        stations=[FIP_TEST,FRANCE_MUSIQUE,SOMA_TEST,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid,SOMA_TEST.stationuuid].includes(s.stationuuid))];
       } else if(selectedCountryCode==='FR'){
-        stations=[FIP_TEST,...stations.filter(s=>s.stationuuid!==FIP_TEST.stationuuid)];
+        stations=[FIP_TEST,FRANCE_MUSIQUE,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid].includes(s.stationuuid))];
       } else if(selectedCountryCode==='US'){
         stations=[SOMA_TEST,...stations.filter(s=>s.stationuuid!==SOMA_TEST.stationuuid)];
       }
@@ -227,9 +280,12 @@ async function search(){
   }
 }
 
-function stop(){
+function stop(byUser=false){
+  if(byUser) userStopped=true;
+  if(reconnectTimer){clearTimeout(reconnectTimer);reconnectTimer=null}
   if(hls){try{hls.destroy()}catch{}hls=null}
   audio.pause();audio.removeAttribute('src');audio.load();
+  setMediaState('none');
 }
 function playNativeUrl(url, timeoutMs=12000){
   return new Promise((resolve,reject)=>{
@@ -258,7 +314,7 @@ function playNativeUrl(url, timeoutMs=12000){
 }
 async function tryUrl(url,s){
   if(!/^https:\/\//i.test(url||''))throw Error('non https');
-  stop();
+  stop(false);
   const isHls=Number(s.hls)===1||/\.m3u8(?:$|\?)/i.test(url);
   const nativeHls=!!(audio.canPlayType('application/vnd.apple.mpegurl')||audio.canPlayType('application/x-mpegURL'));
   if(isHls&&!nativeHls&&window.Hls&&Hls.isSupported()){
@@ -293,25 +349,27 @@ async function exactAlternatives(s){
   }catch{return[]}
 }
 async function playStation(s,button){
+  userStopped=false; reconnectAttempts=0;
   current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);player.classList.add('show');
+  setMediaSession(s);
   player.scrollIntoView({behavior:'smooth',block:'nearest'});
   button.disabled=true;status.textContent='Connexion à '+s.name+'…';
   const errors=[];
   const primary=s.url_resolved||s.url;
   // First attempt happens before any network request so mobile browsers keep the tap permission.
   if(primary){
-    try{await tryUrl(primary,s);status.textContent='▶ Lecture de '+s.name+'.';button.disabled=false;return}catch(e){errors.push(e.message);status.textContent='Le navigateur a bloqué le démarrage automatique. Appuie sur ▶ dans le lecteur affiché juste au-dessus.'}
+    try{await tryUrl(primary,s);setMediaSession(s);status.textContent='▶ Lecture de '+s.name+'.';button.disabled=false;return}catch(e){errors.push(e.message);status.textContent='Le navigateur a bloqué le démarrage automatique. Appuie sur ▶ dans le lecteur affiché juste au-dessus.'}
   }
   const urls=await freshUrls(s);
   for(const u of urls){
     if(u===primary)continue;
-    try{await tryUrl(u,s);status.textContent='Lecture de '+s.name+' via un flux alternatif.';button.disabled=false;return}catch(e){errors.push(e.message)}
+    try{await tryUrl(u,s);setMediaSession(s);status.textContent='Lecture de '+s.name+' via un flux alternatif.';button.disabled=false;return}catch(e){errors.push(e.message)}
   }
   const alts=await exactAlternatives(s);
   for(const alt of alts){
     const u=alt.url_resolved||alt.url;
     if(!u)continue;
-    try{await tryUrl(u,alt);current=alt;nowMeta.textContent=meta(alt);status.textContent='Lecture de '+s.name+' via une autre source.';button.disabled=false;return}catch(e){errors.push(e.message)}
+    try{await tryUrl(u,alt);current=alt;nowMeta.textContent=meta(alt);setMediaSession(alt);status.textContent='Lecture de '+s.name+' via une autre source.';button.disabled=false;return}catch(e){errors.push(e.message)}
   }
   button.disabled=false;
   status.textContent='Cette station refuse la lecture dans ce navigateur ou son flux est indisponible. Essaie une autre station.';
@@ -327,7 +385,18 @@ q.onkeydown=e=>{if(e.key==='Enter')search()};
 tag.onchange=search;
 $('all').onclick=()=>{mode='all';$('all').classList.add('active');$('favs').classList.remove('active');render(stations);status.textContent=stations.length+' radios affichées.'};
 $('favs').onclick=showFavs;
-$('stop').onclick=()=>{stop();player.classList.remove('show');status.textContent='Lecture arrêtée.'};
+$('stop').onclick=()=>{stop(true);player.classList.remove('show');status.textContent='Lecture arrêtée.'};
+
+audio.addEventListener('playing',()=>{
+  reconnectAttempts=0;
+  setMediaState('playing');
+  if(current) setMediaSession(current);
+});
+audio.addEventListener('pause',()=>setMediaState('paused'));
+audio.addEventListener('ended',()=>scheduleReconnect('ended'));
+audio.addEventListener('error',()=>scheduleReconnect('error'));
+audio.addEventListener('stalled',()=>scheduleReconnect('stalled'));
+window.addEventListener('online',()=>{ if(current && audio.paused && !userStopped) scheduleReconnect('online'); });
 
 loadCountries();
 search();
