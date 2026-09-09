@@ -7,7 +7,7 @@
 <title>Radio Monde</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.now{flex:1;min-width:180px}.nativeaudio{width:min(430px,100%);height:42px}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.retrying{color:#facc15!important}.status.ok{color:#86efac}.status.bad{color:#fca5a5}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}.wrap{width:min(1050px,calc(100% - 24px));margin:auto;padding:24px 0 120px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}.panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#091827;color:var(--text);padding:0 12px;font:inherit}button{cursor:pointer}.countryPicker{position:relative}.countryPicker input{width:100%}.countryMenu{display:none;position:absolute;z-index:30;left:0;right:0;top:50px;max-height:330px;overflow:auto;background:#081522;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);padding:6px}.countryMenu.show{display:block}.countryOption{width:100%;min-height:42px;border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;display:flex;justify-content:space-between;gap:12px}.countryOption:hover,.countryOption:focus{background:#13243a}.countryCount{color:var(--muted);font-size:12px}.go{background:var(--accent);color:#03202d;font-weight:800;border:0}.status{color:var(--muted);min-height:24px;margin:14px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.station{background:linear-gradient(#13243a,#0e1b2d);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center}.logo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line)}.ph{display:grid;place-items:center;font-size:25px}.name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:var(--muted);margin-top:4px}.play,.fav{height:40px}.fav{width:40px;padding:0}.play{width:auto;padding:0 12px;background:#123d50;font-weight:800}.station{cursor:pointer}.station:active{transform:scale(.995)}.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted)}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{border-radius:999px;padding:8px 13px;min-height:auto}.active{background:#173653}.player{position:sticky;top:8px;z-index:40;display:none;background:rgba(5,13,24,.98);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 14px 35px rgba(0,0,0,.4)}.player.show{display:block}.playerin{width:min(1050px,100%);margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.playerlogo{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#091827;border:1px solid var(--line);flex:0 0 auto}.now{flex:1;min-width:180px}.nowtop{display:flex;align-items:center;gap:8px;min-width:0}.nowtop strong{flex:1;min-width:0}.playerstate{font-size:11px!important;padding:4px 8px;border-radius:999px;background:#17263a;color:#bfdbfe!important;flex:0 0 auto}.playerstate.playing{background:#103424;color:#86efac!important}.playerstate.retry{background:#3b2d0b;color:#fde68a!important}.playerstate.paused{background:#2b2b36;color:#d1d5db!important}.nativeaudio{width:min(430px,100%);height:42px}.playerfav,.stopbtn{height:42px;font-weight:700}.playerfav.on{background:#3a2b0b;border-color:#8a6a13;color:#fde68a}.stopbtn{background:#35171a;border-color:#613038}.now strong,.now span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now span{font-size:12px;color:var(--muted)}.retrying{color:#facc15!important}.status.ok{color:#86efac}.status.bad{color:#fca5a5}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}@media(max-width:720px){.controls{grid-template-columns:1fr 1fr}.controls input,.go{grid-column:1/-1}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -30,14 +30,26 @@
 <div id="list" class="grid"></div>
 <p class="note">Certaines stations peuvent diffuser leurs propres publicités à l’antenne. Les flux appartiennent aux stations et peuvent parfois être indisponibles ou bloqués selon le navigateur ou le pays.</p>
 </div>
-<div id="player" class="player"><div class="playerin"><div class="now"><strong id="nowName">—</strong><span id="nowMeta">—</span></div><audio id="audio" class="nativeaudio" preload="none" playsinline controls></audio><button id="stop">Stop</button></div></div>
+<div id="player" class="player">
+  <div class="playerin">
+    <div id="nowLogo" class="playerlogo ph">📻</div>
+    <div class="now">
+      <div class="nowtop"><strong id="nowName">—</strong><span id="playerState" class="playerstate">Arrêté</span></div>
+      <span id="nowMeta">—</span>
+    </div>
+    <audio id="audio" class="nativeaudio" preload="none" playsinline controls></audio>
+    <button id="playerFav" class="playerfav" type="button">☆ Favori</button>
+    <button id="stop" class="stopbtn" type="button">■ Stop</button>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.7.2/dist/hls.min.js"></script>
 <script>
 const API=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.info','https://at1.api.radio-browser.info'];
 const ISO_CODES='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
 const $=x=>document.getElementById(x);
 const q=$('q'), tag=$('tag'), list=$('list'), status=$('status'), audio=$('audio'), player=$('player'),
-      nowName=$('nowName'), nowMeta=$('nowMeta'), countrySearch=$('countrySearch'),
+      nowName=$('nowName'), nowMeta=$('nowMeta'), nowLogo=$('nowLogo'), playerState=$('playerState'),
+      playerFav=$('playerFav'), countrySearch=$('countrySearch'),
       countryMenu=$('countryMenu'), countryPicker=$('countryPicker');
 
 let stations=[], countries=[], selectedCountryCode='', mode='all';
@@ -52,6 +64,38 @@ const WORKING_KEY='radio-monde-working-urls-v1';
 const favs=()=>{try{return JSON.parse(localStorage.getItem(FAV_KEY)||'[]')}catch{return[]}};
 const saveFavs=x=>localStorage.setItem(FAV_KEY,JSON.stringify(x));
 const isFav=id=>favs().some(x=>x.stationuuid===id);
+function toggleFavorite(s){
+  if(!s?.stationuuid)return false;
+  let f=favs();
+  const i=f.findIndex(x=>x.stationuuid===s.stationuuid);
+  if(i>=0)f.splice(i,1); else f.unshift(s);
+  saveFavs(f.slice(0,200));
+  updatePlayerFavorite();
+  if(mode==='fav')showFavs(); else render(stations);
+  return isFav(s.stationuuid);
+}
+function updatePlayerFavorite(){
+  const on=!!(current&&isFav(current.stationuuid));
+  playerFav.textContent=on?'★ Favori':'☆ Favori';
+  playerFav.classList.toggle('on',on);
+  playerFav.disabled=!current;
+}
+function setPlayerState(text,kind=''){
+  playerState.textContent=text;
+  playerState.className='playerstate'+(kind?' '+kind:'');
+}
+function updatePlayerLogo(s){
+  if(s?.favicon&&/^https:\/\//i.test(s.favicon)){
+    const img=document.createElement('img');
+    img.id='nowLogo'; img.className='playerlogo'; img.src=s.favicon; img.alt='';
+    img.referrerPolicy='no-referrer';
+    img.onerror=()=>{img.outerHTML='<div id="nowLogo" class="playerlogo ph">📻</div>';};
+    nowLogo.replaceWith(img);
+  }else if(nowLogo.tagName==='IMG'){
+    const d=document.createElement('div'); d.id='nowLogo'; d.className='playerlogo ph'; d.textContent='📻';
+    nowLogo.replaceWith(d);
+  }
+}
 const workingUrls=()=>{try{return JSON.parse(localStorage.getItem(WORKING_KEY)||'{}')}catch{return{}}};
 const saveWorkingUrl=(s,url)=>{
   if(!s?.stationuuid||!url)return;
@@ -230,11 +274,7 @@ function render(arr){
     fav.className='fav'; fav.textContent=isFav(s.stationuuid)?'★':'☆';
     fav.onclick=e=>{
       e.stopPropagation();
-      let f=favs(),i=f.findIndex(x=>x.stationuuid===s.stationuuid);
-      if(i>=0)f.splice(i,1); else f.unshift(s);
-      saveFavs(f.slice(0,200));
-      fav.textContent=isFav(s.stationuuid)?'★':'☆';
-      if(mode==='fav')showFavs();
+      toggleFavorite(s);
     };
 
     const play=document.createElement('button');
@@ -472,6 +512,8 @@ async function markPlaying(s,url){
   userStopped=false;
   setMediaSession(s);
   setMediaState('playing');
+  setPlayerState('Lecture','playing');
+  updatePlayerFavorite();
   setStatus('🟢 Lecture : '+s.name+'.','ok');
 }
 
@@ -483,6 +525,9 @@ async function playStation(s,button){
   current=s;
   nowName.textContent=s.name;
   nowMeta.textContent=meta(s);
+  updatePlayerLogo(s);
+  updatePlayerFavorite();
+  setPlayerState('Connexion…','retry');
   player.classList.add('show');
   setMediaSession(s);
   button.disabled=true;
@@ -550,6 +595,7 @@ function scheduleReconnect(reason){
     if(token!==playToken||userStopped||!current)return;
     reconnectNow(reason);
   },delay);
+  setPlayerState('Reconnexion…','retry');
   setStatus('🟡 Connexion interrompue — reconnexion automatique…','retrying');
 }
 async function reconnectNow(reason){
@@ -557,6 +603,7 @@ async function reconnectNow(reason){
   const s=current;
   const token=playToken;
   reconnectAttempts++;
+  setPlayerState('Reconnexion '+reconnectAttempts+'/5','retry');
   setStatus('🟡 Reconnexion '+reconnectAttempts+'/5 à '+s.name+'…','retrying');
 
   const urls=await candidateUrls(s,true);
@@ -590,8 +637,11 @@ $('all').onclick=()=>{
   render(stations); setStatus('🟢 '+stations.length+' radios affichées.','ok');
 };
 $('favs').onclick=showFavs;
+playerFav.onclick=()=>{if(current)toggleFavorite(current)};
 $('stop').onclick=()=>{
   stop(true);
+  setPlayerState('Arrêté');
+  updatePlayerFavorite();
   player.classList.remove('show');
   setStatus('Lecture arrêtée.');
 };
@@ -599,11 +649,13 @@ $('stop').onclick=()=>{
 audio.addEventListener('playing',()=>{
   clearReconnect();
   reconnectAttempts=0;
+  setPlayerState('Lecture','playing');
   setMediaState('playing');
   if(current)setMediaSession(current);
 });
 audio.addEventListener('pause',()=>{
   setMediaState('paused');
+  if(!userStopped&&!switchingStation)setPlayerState('Pause','paused');
   // A deliberate pause is respected. We reconnect only on actual stream failure.
 });
 audio.addEventListener('ended',()=>{
