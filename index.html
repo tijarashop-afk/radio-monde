@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
 <title>Radio Monde</title>
-<meta name="application-version" content="14">
+<meta name="application-version" content="15">
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
+[hidden]{display:none!important}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102743,#07111f 45%);color:var(--text);min-height:100vh}
 .wrap{width:min(1080px,calc(100% - 24px));margin:auto;padding:24px 0 210px}h1{font-size:clamp(30px,6vw,52px);margin:0}.sub{color:var(--muted);margin:8px 0 20px}
 .panel{background:rgba(14,27,45,.95);border:1px solid var(--line);border-radius:20px;padding:14px}.controls{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}
@@ -52,8 +53,17 @@ input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--li
   <button id="all" class="active">📻 Radios</button>
   <button id="favs">★ Favoris</button>
   <button id="historyTab">🕘 Historique</button>
+  <button id="podcastsTab">🎙 Podcasts</button>
 </div>
 
+<section id="podcastPanel" class="panel" hidden>
+<h2>🎙 Podcasts</h2>
+<form id="podcastForm" style="display:flex;gap:8px;flex-wrap:wrap"><input id="podcastUrl" type="url" required placeholder="Colle le lien RSS du podcast" aria-label="Lien RSS du podcast" style="flex:1;min-width:180px"><button class="go" type="submit">S’abonner</button></form>
+<p class="note">Tes abonnements et ta progression restent dans ce navigateur. Utilise un flux RSS public, pas un lien Spotify ou une page web.</p>
+<label class="note"><input id="podcastRelay" type="checkbox" style="min-height:auto"> Autoriser rss2json.com à lire le lien du flux public si l’accès direct échoue (10 épisodes récents).</label>
+<div id="podcastSubscriptions" class="tabs"></div><div id="podcastMessage" role="status" class="status"></div>
+<div id="podcastEpisodes"></div>
+</section>
 <div id="resume" class="resume">
   <div class="resumeInfo"><strong id="resumeName">—</strong><span id="resumeMeta">Dernière radio écoutée</span></div>
   <button id="resumeBtn" type="button">▶ Reprendre</button>
@@ -83,6 +93,7 @@ input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--li
       <input id="volumeSlider" type="range" min="0" max="100" step="1" value="100" aria-label="Volume">
       <span id="volumeValue">100%</span>
     </div>
+    <div id="podcastSeek" hidden style="grid-column:1/-1"><div style="display:flex;align-items:center;gap:8px"><button id="back15" aria-label="Reculer de 15 secondes">−15 s</button><input id="episodeSeek" type="range" min="0" max="0" value="0" step="1" aria-label="Position dans l’épisode" style="flex:1;min-width:60px"><button id="forward30" aria-label="Avancer de 30 secondes">+30 s</button><select id="podcastSpeed" aria-label="Vitesse de lecture"><option value="1">1×</option><option value="1.25">1,25×</option><option value="1.5">1,5×</option><option value="2">2×</option></select></div><span id="episodeTime" class="note">0:00</span></div>
     <div class="extras">
       <button id="playerFav" class="playerfav" type="button">☆ Favori</button>
       <button id="sleepBtn" class="sleepbtn" type="button">🌙 Minuteur</button>
@@ -138,7 +149,7 @@ function updateVolumeUI(){const pct=Math.round(audio.volume*100);volumeSlider.va
 function setVolume(pct){const n=Math.max(0,Math.min(100,Number(pct)||0));audio.volume=n/100;try{localStorage.setItem(VOLUME_KEY,String(n))}catch{}updateVolumeUI()}
 function loadVolume(){let n=100;try{const raw=localStorage.getItem(VOLUME_KEY);const saved=raw===null?100:Number(raw);if(Number.isFinite(saved)&&saved>=0&&saved<=100)n=saved}catch{}setVolume(n)}
 
-function updatePlayerFavorite(){const on=!!(current&&isFav(current.stationuuid));playerFav.textContent=on?'★ Favori':'☆ Favori';playerFav.classList.toggle('on',on);playerFav.disabled=!current}
+function updatePlayerFavorite(){const on=!!(current&&isFav(current.stationuuid));playerFav.textContent=on?'★ Favori':'☆ Favori';playerFav.classList.toggle('on',on);playerFav.disabled=!current||current.kind==='podcast'}
 function updatePlayerLogo(s){const old=$('nowLogo');if(!old)return;const d=document.createElement(s?.favicon&&/^https:\/\//i.test(s.favicon)?'img':'div');d.id='nowLogo';d.className='playerlogo'+(d.tagName==='DIV'?' ph':'');if(d.tagName==='IMG'){d.src=s.favicon;d.alt='';d.referrerPolicy='no-referrer';d.onerror=()=>{const cur=$('nowLogo');if(cur){const x=document.createElement('div');x.id='nowLogo';x.className='playerlogo ph';x.textContent='📻';cur.replaceWith(x)}}}else d.textContent='📻';old.replaceWith(d)}
 function toggleFavorite(s){if(!s?.stationuuid)return;let f=favs();const i=f.findIndex(x=>x.stationuuid===s.stationuuid);if(i>=0)f.splice(i,1);else f.unshift(s);saveFavs(f.slice(0,200));updatePlayerFavorite();if(mode==='fav')showFavs();else if(mode==='history')showHistory();else if(mode==='all')render(stations)}
 function saveWorkingUrl(s,url){if(!s?.stationuuid||!url)return;const map=workingUrls();map[s.stationuuid]={url,at:Date.now()};const entries=Object.entries(map).sort((a,b)=>(b[1]?.at||0)-(a[1]?.at||0)).slice(0,250);localStorage.setItem(WORKING_KEY,JSON.stringify(Object.fromEntries(entries)))}
@@ -170,13 +181,13 @@ const FRANCE_MUSIQUE={stationuuid:'official-france-musique',name:'France Musique
 const SOMA_TEST={stationuuid:'official-soma-test',name:'SomaFM Groove Salad — test audio',country:'United States',countrycode:'US',codec:'MP3',bitrate:128,hls:0,lastcheckok:1,ssl_error:0,favicon:'',url:'https://ice5.somafm.com/groovesalad-128-mp3',url_resolved:'https://ice5.somafm.com/groovesalad-128-mp3'};
 
 async function search(){if(!resolveCountryInput())return;const request=++searchToken;mode='all';setActiveTab('all');setStatus('Recherche…');const p=new URLSearchParams({hidebroken:'true',is_https:'true',limit:'120',order:'clickcount',reverse:'true'});if(q.value.trim())p.set('name',q.value.trim());if(selectedCountryCode)p.set('countrycode',selectedCountryCode);if(tag.value)p.set('tag',tag.value);try{const d=await api('/json/stations/search?'+p.toString());if(request!==searchToken)return;stations=(d||[]).filter(good).filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode).sort((a,b)=>score(b)-score(a)).slice(0,70);if(!q.value.trim()&&!tag.value){if(!selectedCountryCode)stations=[FIP_TEST,FRANCE_MUSIQUE,SOMA_TEST,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid,SOMA_TEST.stationuuid].includes(s.stationuuid))];else if(selectedCountryCode==='FR')stations=[FIP_TEST,FRANCE_MUSIQUE,...stations.filter(s=>![FIP_TEST.stationuuid,FRANCE_MUSIQUE.stationuuid].includes(s.stationuuid))];else if(selectedCountryCode==='US')stations=[SOMA_TEST,...stations.filter(s=>s.stationuuid!==SOMA_TEST.stationuuid)]}render(stations);const label=selectedCountryCode?' en '+regionName(selectedCountryCode):'';setStatus('🟢 '+stations.length+' radios compatibles trouvées'+label+'.','ok')}catch(e){if(request!==searchToken)return;stations=[];render([]);setStatus('🔴 Impossible de joindre l’annuaire pour le moment.','bad')}}
-function setActiveTab(id){['all','favs','historyTab'].forEach(x=>$(x).classList.toggle('active',x===id))}
+function setActiveTab(id){$('podcastPanel').hidden=id!=='podcastsTab';list.hidden=id==='podcastsTab';$('podcastSeek').hidden=current?.kind!=='podcast';['all','favs','historyTab','podcastsTab'].forEach(x=>$(x).classList.toggle('active',x===id))}
 function showFavs(){++searchToken;mode='fav';setActiveTab('favs');const f=favs().filter(good).filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode);render(f);setStatus(f.length?'🟢 '+f.length+' favori(s).':'Aucun favori.',f.length?'ok':'')}
 function showHistory(){++searchToken;mode='history';setActiveTab('historyTab');const h=history().filter(s=>!selectedCountryCode||String(s.countrycode||'').toUpperCase()===selectedCountryCode);render(h);setStatus(h.length?'🕘 '+h.length+' radio(s) dans l’historique.':'Historique vide.',h.length?'ok':'')}
 
 function clearReconnect(){if(reconnectTimer){clearTimeout(reconnectTimer);reconnectTimer=null}}
 function resetPlaybackEngine(){clearReconnect();if(cancelPlaybackAttempt)cancelPlaybackAttempt();if(hls){try{hls.destroy()}catch{}hls=null}try{audio.pause()}catch{}audio.removeAttribute('src');try{audio.load()}catch{}}
-function stop(byUser=true){if(byUser){userStopped=true;userPaused=false;playToken++;current=null}switchingStation=true;resetPlaybackEngine();switchingStation=false;reconnectAttempts=0;setMediaState('none');syncPlayButton();updateTransportButtons()}
+function stop(byUser=true){saveEpisodeProgress();if(byUser){userStopped=true;userPaused=false;playToken++;current=null}switchingStation=true;resetPlaybackEngine();switchingStation=false;reconnectAttempts=0;setMediaState('none');syncPlayButton();updateTransportButtons()}
 function setMediaState(state){if('mediaSession' in navigator){try{navigator.mediaSession.playbackState=state}catch{}}}
 function getQueue(){return visibleStations}
 function updateTransportButtons(){const queue=getQueue();const enabled=queue.length>1&&!!current;prevStation.disabled=!enabled;nextStation.disabled=!enabled;mainPlay.disabled=!current}
@@ -231,16 +242,16 @@ async function exactAlternatives(s){if(String(s.stationuuid||'').startsWith('off
 async function candidateUrls(s,includeNetwork=true){const out=[getWorkingUrl(s),s.url_resolved,s.url];if(includeNetwork)out.push(...await freshUrls(s));return[...new Set(out.filter(u=>/^https:\/\//i.test(u)))]}
 async function markPlaying(s,url){try{saveWorkingUrl(s,url);rememberPlayed(s)}catch{}reconnectAttempts=0;userStopped=false;userPaused=false;setMediaSession(s);setMediaState('playing');setPlayerState('Lecture','playing');updatePlayerFavorite();syncPlayButton();updateTransportButtons();setStatus('🟢 Lecture : '+s.name+'.','ok')}
 
-async function playStation(s,button){const token=++playToken;userStopped=false;userPaused=false;reconnectAttempts=0;clearReconnect();current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);updatePlayerLogo(s);updatePlayerFavorite();setPlayerState('Connexion…','retry');player.classList.add('show');setMediaSession(s);syncPlayButton();updateTransportButtons();if(button)button.disabled=true;setStatus('🟡 Connexion à '+s.name+'…','retrying');const first=getWorkingUrl(s)||s.url_resolved||s.url;if(first){try{await tryUrl(first,s,token);if(token===playToken)await markPlaying(s,first);if(button)button.disabled=false;return}catch{}}if(!playbackActive(token)){if(button)button.disabled=false;return}const urls=await candidateUrls(s,true);for(const u of urls){if(!playbackActive(token))break;if(u===first)continue;try{await tryUrl(u,s,token);if(token===playToken)await markPlaying(s,u);if(button)button.disabled=false;return}catch{}}if(!playbackActive(token)){if(button)button.disabled=false;return}const alts=await exactAlternatives(s);for(const alt of alts){if(!playbackActive(token))break;const u=getWorkingUrl(alt)||alt.url_resolved||alt.url;if(!u)continue;try{await tryUrl(u,alt,token);if(token===playToken){current=alt;nowMeta.textContent=meta(alt);await markPlaying(alt,u)}if(button)button.disabled=false;return}catch{}}if(button)button.disabled=false;if(token===playToken){setPlayerState('Indisponible');setStatus('🔴 Flux indisponible dans ce navigateur. Essaie une autre station.','bad')}}
+async function playStation(s,button){if(s.kind==='podcast')return playPodcast(s);saveEpisodeProgress();$('podcastSeek').hidden=true;audio.playbackRate=1;const token=++playToken;userStopped=false;userPaused=false;reconnectAttempts=0;clearReconnect();current=s;nowName.textContent=s.name;nowMeta.textContent=meta(s);updatePlayerLogo(s);updatePlayerFavorite();setPlayerState('Connexion…','retry');player.classList.add('show');setMediaSession(s);syncPlayButton();updateTransportButtons();if(button)button.disabled=true;setStatus('🟡 Connexion à '+s.name+'…','retrying');const first=getWorkingUrl(s)||s.url_resolved||s.url;if(first){try{await tryUrl(first,s,token);if(token===playToken)await markPlaying(s,first);if(button)button.disabled=false;return}catch{}}if(!playbackActive(token)){if(button)button.disabled=false;return}const urls=await candidateUrls(s,true);for(const u of urls){if(!playbackActive(token))break;if(u===first)continue;try{await tryUrl(u,s,token);if(token===playToken)await markPlaying(s,u);if(button)button.disabled=false;return}catch{}}if(!playbackActive(token)){if(button)button.disabled=false;return}const alts=await exactAlternatives(s);for(const alt of alts){if(!playbackActive(token))break;const u=getWorkingUrl(alt)||alt.url_resolved||alt.url;if(!u)continue;try{await tryUrl(u,alt,token);if(token===playToken){current=alt;nowMeta.textContent=meta(alt);await markPlaying(alt,u)}if(button)button.disabled=false;return}catch{}}if(button)button.disabled=false;if(token===playToken){setPlayerState('Indisponible');setStatus('🔴 Flux indisponible dans ce navigateur. Essaie une autre station.','bad')}}
 
 function reconnectDelay(attempt){return[2000,4000,8000,15000,30000][Math.min(attempt,4)]}
-function scheduleReconnect(reason){if(userStopped||userPaused||switchingStation||!current||reconnectTimer)return;if(reconnectAttempts>=5){setPlayerState('Coupé');setStatus('🔴 Le flux a coupé après plusieurs tentatives. Relance la station.','bad');return}const token=playToken;const delay=reconnectDelay(reconnectAttempts);reconnectTimer=setTimeout(()=>{reconnectTimer=null;if(token!==playToken||userStopped||userPaused||!current)return;reconnectNow(reason)},delay);setPlayerState('Reconnexion…','retry');setStatus('🟡 Connexion interrompue — reconnexion automatique…','retrying')}
+function scheduleReconnect(reason){if(current?.kind==='podcast')return;if(userStopped||userPaused||switchingStation||!current||reconnectTimer)return;if(reconnectAttempts>=5){setPlayerState('Coupé');setStatus('🔴 Le flux a coupé après plusieurs tentatives. Relance la station.','bad');return}const token=playToken;const delay=reconnectDelay(reconnectAttempts);reconnectTimer=setTimeout(()=>{reconnectTimer=null;if(token!==playToken||userStopped||userPaused||!current)return;reconnectNow(reason)},delay);setPlayerState('Reconnexion…','retry');setStatus('🟡 Connexion interrompue — reconnexion automatique…','retrying')}
 async function reconnectNow(reason){if(userStopped||userPaused||switchingStation||!current)return;const s=current,token=playToken;reconnectAttempts++;setPlayerState('Reconnexion '+reconnectAttempts+'/5','retry');setStatus('🟡 Reconnexion '+reconnectAttempts+'/5 à '+s.name+'…','retrying');const urls=await candidateUrls(s,true);for(const u of urls){if(token!==playToken||userStopped||userPaused)return;try{await tryUrl(u,s,token);if(token===playToken){await markPlaying(s,u);return}}catch{}}if(token===playToken&&!userStopped&&!userPaused)scheduleReconnect(reason)}
 
 async function togglePlay(forcePlay){
   if(!current)return;
   const shouldPlay=typeof forcePlay==='boolean'?forcePlay:(userPaused||userStopped||(audio.paused&&!switchingStation));
-  if(shouldPlay){await playStation(current,null)}
+  if(shouldPlay){if(current.kind==='podcast'&&audio.src){userPaused=false;userStopped=false;try{await audio.play()}catch{setStatus('Lecture impossible. Relance l’épisode.','bad')}}else await playStation(current,null)}
   else{
     userPaused=true;++playToken;clearReconnect();
     if(cancelPlaybackAttempt)cancelPlaybackAttempt();
@@ -264,10 +275,117 @@ $('stop').onclick=()=>{stop(true);clearSleepTimer(false);setPlayerState('Arrêt�
 
 audio.addEventListener('playing',()=>{if(userPaused||userStopped){audio.pause();return}clearReconnect();reconnectAttempts=0;userPaused=false;setPlayerState('Lecture','playing');setMediaState('playing');if(current)setMediaSession(current);syncPlayButton()});
 audio.addEventListener('pause',()=>{setMediaState('paused');syncPlayButton();if(!userStopped&&!switchingStation&&!userPaused)setPlayerState('Pause','paused')});
-audio.addEventListener('ended',()=>{if(!userStopped&&!userPaused&&!switchingStation)scheduleReconnect('ended')});
-audio.addEventListener('error',()=>{if(!userStopped&&!userPaused&&!switchingStation)scheduleReconnect('error')});
+audio.addEventListener('ended',()=>{if(current?.kind==='podcast'){saveEpisodeProgress(true);userPaused=true;setPlayerState('Terminé','paused');setMediaState('paused');syncPlayButton();return}if(!userStopped&&!userPaused&&!switchingStation)scheduleReconnect('ended')});
+audio.addEventListener('error',()=>{if(current?.kind==='podcast'){setStatus('Épisode indisponible. Réessaie sa lecture.','bad');return}if(!userStopped&&!userPaused&&!switchingStation)scheduleReconnect('error')});
 audio.addEventListener('stalled',()=>{if(userStopped||userPaused||switchingStation)return;const token=playToken;setTimeout(()=>{if(token===playToken&&!userStopped&&!userPaused&&!switchingStation&&audio.readyState<3)scheduleReconnect('stalled')},8000)});
 window.addEventListener('online',()=>{if(current&&!userStopped&&!userPaused&&audio.paused)scheduleReconnect('online')});
+
+
+const POD_KEY='radio-monde-podcasts-v1',POD_PROGRESS='radio-monde-podcast-progress-v1';
+let podcastRequest=0,podcastEpisodes=[],episodeRestore=null,lastProgressSave=0;
+function readPodData(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}}
+function subscriptions(){const a=readPodData(POD_KEY,[]);return Array.isArray(a)?a:[]}
+function podMessage(text){$('podcastMessage').textContent=text}
+function publicHttps(value){try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:''}catch{return ''}}
+function saveSubscriptions(items){try{localStorage.setItem(POD_KEY,JSON.stringify(items));return true}catch{podMessage('Impossible d’enregistrer les abonnements dans ce navigateur.');return false}}
+function podcastButton(label,action){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=action;return b}
+function renderSubscriptions(){
+  const el=$('podcastSubscriptions');el.innerHTML='';
+  for(const s of subscriptions()){
+    const group=document.createElement('div');group.style.cssText='display:flex;gap:4px;align-items:center';
+    group.append(podcastButton(s.title,()=>openPodcast(s.url)),podcastButton('×',()=>{if(!saveSubscriptions(subscriptions().filter(x=>x.url!==s.url)))return;++podcastRequest;renderSubscriptions();$('podcastEpisodes').innerHTML='';podcastEpisodes=[];visibleStations=[];updateTransportButtons();podMessage('Abonnement supprimé.')}));
+    group.lastChild?.setAttribute('aria-label','Se désabonner de '+s.title);el.append(group);
+  }
+}
+function showPodcasts(){++searchToken;++podcastRequest;mode='podcast';setActiveTab('podcastsTab');renderSubscriptions();visibleStations=podcastEpisodes.slice();updateTransportButtons();setStatus('Podcasts : tes émissions à écouter à la demande.')}
+function childText(node,name){return Array.from(node.children).find(x=>x.localName===name)?.textContent?.trim()||''}
+function parsePodcastXml(xml,url){
+  const doc=new DOMParser().parseFromString(xml,'application/xml');
+  if(doc.querySelector('parsererror'))throw Error('Flux RSS invalide.');
+  const channel=doc.querySelector('channel');if(!channel)throw Error('Ce lien ne contient pas de podcast RSS.');
+  const title=childText(channel,'title')||new URL(url).hostname;
+  const image=Array.from(channel.children).find(x=>x.localName==='image'&&x.getAttribute('href'))?.getAttribute('href')||channel.querySelector('image > url')?.textContent||'';
+  const items=Array.from(channel.querySelectorAll('item')).map(item=>({
+    title:childText(item,'title'),guid:childText(item,'guid'),pubDate:childText(item,'pubDate'),
+    url:item.querySelector('enclosure')?.getAttribute('url'),type:item.querySelector('enclosure')?.getAttribute('type')
+  }));
+  return normalizePodcast({title,image,items},url);
+}
+function normalizePodcast(feed,url){
+  const episodes=feed.items.filter(x=>publicHttps(x.url)&&(!x.type||/^audio\//i.test(x.type))).map(x=>({
+    kind:'podcast',stationuuid:'podcast:'+url+'#'+(x.guid||x.url),name:x.title||'Épisode sans titre',
+    podcastTitle:feed.title||'Podcast',country:feed.title||'Podcast',url:publicHttps(x.url),url_resolved:publicHttps(x.url),
+    favicon:publicHttps(feed.image),pubDate:x.pubDate||'',lastcheckok:1,ssl_error:0
+  }));
+  const seen=new Set();return {title:feed.title||new URL(url).hostname,episodes:episodes.filter(x=>{if(seen.has(x.stationuuid))return false;seen.add(x.stationuuid);return true})};
+}
+async function fetchPodcast(url,relay){
+  const get=async target=>{const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),12000);try{const r=await fetch(target,{signal:ctl.signal,credentials:'omit',referrerPolicy:'no-referrer'});if(!r.ok)throw Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(timer)}};
+  try{return parsePodcastXml(await get(url),url)}catch(e){
+    if(!relay)throw Error('Flux inaccessible ou invalide. Vérifie le lien RSS ; si c’est un flux public, tu peux autoriser le relais ci-dessus puis réessayer.');
+    const data=JSON.parse(await get('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(url)));
+    if(data.status!=='ok')throw Error('Le relais n’a pas pu lire ce flux. Réessaie plus tard.');
+    return normalizePodcast({title:data.feed?.title,image:data.feed?.image,items:(data.items||[]).map(x=>({title:x.title,guid:x.guid,pubDate:x.pubDate,url:x.enclosure?.link||x.enclosure?.url,type:x.enclosure?.type}))},url);
+  }
+}
+async function openPodcast(raw,subscribe=false){
+  const url=publicHttps(raw);if(!url){podMessage('Colle un lien RSS commençant par https://.');return}
+  const request=++podcastRequest;podMessage('Chargement des épisodes…');
+  try{
+    const feed=await fetchPodcast(url,$('podcastRelay').checked);
+    if(request!==podcastRequest||mode!=='podcast')return;
+    if(!feed.episodes.length)throw Error('Aucun épisode audio HTTPS lisible dans ce flux.');
+    if(subscribe){const next=subscriptions().filter(x=>x.url!==url);next.unshift({url,title:feed.title});if(!saveSubscriptions(next))return;renderSubscriptions();$('podcastUrl').value=''}
+    podcastEpisodes=feed.episodes;visibleStations=feed.episodes.slice();updateTransportButtons();renderEpisodes(feed);
+    podMessage(feed.episodes.length+' épisodes disponibles · '+feed.title);
+  }catch(e){if(request===podcastRequest&&mode==='podcast')podMessage(e.message||'Impossible de charger ce podcast.')}
+}
+function renderEpisodes(feed){
+  const root=$('podcastEpisodes');root.innerHTML='';
+  const heading=document.createElement('h3');heading.textContent=feed.title;root.append(heading);
+  for(const s of feed.episodes){
+    const row=document.createElement('div');row.className='panel';row.style.marginBottom='10px';
+    const title=document.createElement('strong');title.textContent=s.name;
+    const date=document.createElement('p');date.className='note';const parsed=new Date(s.pubDate);date.textContent=Number.isNaN(parsed.getTime())?'':parsed.toLocaleDateString('fr-FR');
+    const saved=readPodData(POD_PROGRESS,{})[s.stationuuid];const play=podcastButton(saved?.time>0?'▶ Reprendre':'▶ Écouter',()=>playPodcast(s));
+    row.append(title,date,play);root.append(row);
+  }
+}
+function saveEpisodeProgress(completed=false){
+  if(current?.kind!=='podcast'||switchingStation)return;
+  const time=Number(audio.currentTime);if(!Number.isFinite(time))return;
+  try{const data=readPodData(POD_PROGRESS,{});data[current.stationuuid]={time:completed||audio.ended?0:time,at:Date.now()};
+    localStorage.setItem(POD_PROGRESS,JSON.stringify(Object.fromEntries(Object.entries(data).sort((a,b)=>b[1].at-a[1].at).slice(0,300))));
+  }catch{}
+}
+function timeLabel(seconds){const n=Math.max(0,Math.floor(seconds||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}
+function updateEpisodeSeek(){
+  if(current?.kind!=='podcast')return;
+  const duration=audio.duration;const valid=Number.isFinite(duration)&&duration>0;
+  $('episodeSeek').disabled=!valid;$('episodeSeek').max=valid?duration:0;$('episodeSeek').value=audio.currentTime||0;
+  $('episodeTime').textContent=timeLabel(audio.currentTime)+(valid?' / '+timeLabel(duration):'');
+}
+function seekEpisode(value){if(current?.kind!=='podcast'||!Number.isFinite(audio.duration))return;audio.currentTime=Math.min(audio.duration,Math.max(0,value));saveEpisodeProgress();updateEpisodeSeek()}
+async function playPodcast(s){
+  saveEpisodeProgress();const token=++playToken;current=s;userStopped=false;userPaused=false;reconnectAttempts=0;clearReconnect();
+  episodeRestore={token,time:readPodData(POD_PROGRESS,{})[s.stationuuid]?.time||0};
+  nowName.textContent=s.name;nowMeta.textContent=s.podcastTitle||'Podcast';updatePlayerLogo(s);updatePlayerFavorite();updateTransportButtons();
+  player.classList.add('show');$('podcastSeek').hidden=false;audio.playbackRate=Number($('podcastSpeed').value)||1;
+  setPlayerState('Connexion…','retry');setStatus('Chargement de l’épisode…');setMediaSession(s);
+  if('mediaSession' in navigator){for(const [name,fn] of Object.entries({seekbackward:()=>seekEpisode(audio.currentTime-15),seekforward:()=>seekEpisode(audio.currentTime+30),seekto:d=>seekEpisode(d.seekTime)})){try{navigator.mediaSession.setActionHandler(name,fn)}catch{}}}
+  try{await tryUrl(s.url,s,token);if(!playbackActive(token))return;audio.playbackRate=Number($('podcastSpeed').value)||1;setPlayerState('Lecture','playing');setStatus('🎙 '+s.name,'ok');syncPlayButton();updateEpisodeSeek()}
+  catch{if(token===playToken){setPlayerState('Indisponible');setStatus('Impossible de lire cet épisode. Réessaie ou choisis-en un autre.','bad');syncPlayButton()}}
+}
+$('podcastsTab').onclick=showPodcasts;
+$('podcastForm').onsubmit=e=>{e.preventDefault();openPodcast($('podcastUrl').value,true)};
+$('back15').onclick=()=>seekEpisode(audio.currentTime-15);
+$('forward30').onclick=()=>seekEpisode(audio.currentTime+30);
+$('episodeSeek').oninput=()=>seekEpisode(Number($('episodeSeek').value));
+$('podcastSpeed').onchange=()=>{if(current?.kind==='podcast')audio.playbackRate=Number($('podcastSpeed').value)};
+audio.addEventListener('loadedmetadata',()=>{if(current?.kind!=='podcast')return;if(episodeRestore?.token===playToken){const t=episodeRestore.time;episodeRestore=null;if(t>0&&Number.isFinite(audio.duration)&&t<audio.duration-2)audio.currentTime=t}updateEpisodeSeek()});
+audio.addEventListener('timeupdate',()=>{updateEpisodeSeek();if(Date.now()-lastProgressSave>5000){saveEpisodeProgress();lastProgressSave=Date.now()}});
+audio.addEventListener('pause',()=>saveEpisodeProgress());
+window.addEventListener('pagehide',()=>saveEpisodeProgress());
 
 loadVolume();updateResume();loadCountries();search();syncPlayButton();updateTransportButtons();updatePlayerFavorite();
 </script>
