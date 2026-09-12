@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
 <title>Radio Monde</title>
-<meta name="application-version" content="15">
+<meta name="application-version" content="16">
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;--bg:#07111f;--card:#0e1b2d;--line:#20344e;--text:#f8fafc;--muted:#9fb0c4;--accent:#38bdf8}
 [hidden]{display:none!important}
@@ -58,9 +58,14 @@ input,select,button{min-height:46px;border-radius:12px;border:1px solid var(--li
 
 <section id="podcastPanel" class="panel" hidden>
 <h2>🎙 Podcasts</h2>
+<h3>À découvrir en français</h3>
+<p class="note">Une sélection variée pour commencer. « Écouter » affiche les épisodes ; « S’abonner » garde l’émission dans tes abonnements. Certains épisodes peuvent contenir des publicités ou des extraits d’offres payantes.</p>
+<div id="podcastDiscover" class="grid"></div>
+<h3>Ajouter un autre podcast</h3>
 <form id="podcastForm" style="display:flex;gap:8px;flex-wrap:wrap"><input id="podcastUrl" type="url" required placeholder="Colle le lien RSS du podcast" aria-label="Lien RSS du podcast" style="flex:1;min-width:180px"><button class="go" type="submit">S’abonner</button></form>
 <p class="note">Tes abonnements et ta progression restent dans ce navigateur. Utilise un flux RSS public, pas un lien Spotify ou une page web.</p>
 <label class="note"><input id="podcastRelay" type="checkbox" style="min-height:auto"> Autoriser rss2json.com à lire le lien du flux public si l’accès direct échoue (10 épisodes récents).</label>
+<h3>Mes abonnements</h3>
 <div id="podcastSubscriptions" class="tabs"></div><div id="podcastMessage" role="status" class="status"></div>
 <div id="podcastEpisodes"></div>
 </section>
@@ -289,8 +294,31 @@ function podMessage(text){$('podcastMessage').textContent=text}
 function publicHttps(value){try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:''}catch{return ''}}
 function saveSubscriptions(items){try{localStorage.setItem(POD_KEY,JSON.stringify(items));return true}catch{podMessage('Impossible d’enregistrer les abonnements dans ce navigateur.');return false}}
 function podcastButton(label,action){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=action;return b}
+const PODCAST_SELECTION=[{"title":"Affaires sensibles","category":"Histoire & enquêtes","emoji":"🔎","description":"Les grandes affaires et les événements qui ont marqué notre époque.","url":"https://radiofrance-podcast.net/podcast09/35099478-7c72-4f9e-a6de-1b928400e9e5/podcast_0b91efaf-26e6-11e4-907f-782bcb6744eb.xml","source":"https://podcloud.fr/podcast/affaires-sensibles"},{"title":"Les Grosses Têtes — archives de Philippe Bouvard","category":"Humour","emoji":"😄","description":"Les échanges et les bons mots des archives de l’émission de RTL.","url":"https://feeds.audiomeans.fr/feed/07213585-abe7-4f28-a95b-37545b65c76f.xml","source":"https://www.rtl.fr/programmes/les-grosses-tetes"},{"title":"Transfert","category":"Récits de vie","emoji":"🎧","description":"Des histoires personnelles racontées par celles et ceux qui les ont vécues.","url":"https://feeds.360.audion.fm/EZqjvOzZXgWIKWg0EETBQ","source":"https://podcloud.fr/podcast/transfert"},{"title":"Les pieds sur terre","category":"Société","emoji":"🌍","description":"Des reportages et des témoignages pour découvrir d’autres vies.","url":"https://radiofrance-podcast.net/podcast09/35099478-7c72-4f9e-a6de-1b928400e9e5/podcast_14303c46-3c2f-486f-a063-fadf9719bff3.xml","source":"https://podcloud.fr/podcast/les-pieds-sur-terre"},{"title":"La Science CQFD","category":"Sciences","emoji":"🔬","description":"Des échanges pour mieux comprendre les sciences et la recherche.","url":"https://radiofrance-podcast.net/podcast09/35099478-7c72-4f9e-a6de-1b928400e9e5/podcast_423b51d8-3f44-4b9a-b906-e0d14bdf0516.xml","source":"https://podcloud.fr/podcast/la-methode-scientifique"},{"title":"Le code a changé","category":"Numérique","emoji":"💻","description":"Comment Internet et les technologies transforment nos vies.","url":"https://radiofrance-podcast.net/podcast09/35099478-7c72-4f9e-a6de-1b928400e9e5/podcast_3957c833-0b28-4314-8427-2a1d1e103381.xml","source":"https://podcloud.fr/podcast/le-code-a-change"}];
+function renderPodcastSelection(){
+  const el=$('podcastDiscover');el.innerHTML='';
+  for(const p of PODCAST_SELECTION){
+    const card=document.createElement('article');card.className='panel';
+    const title=document.createElement('h4');title.style.margin='0 0 8px';title.textContent=p.emoji+' '+p.title;
+    const genre=document.createElement('div');genre.className='meta';genre.textContent=p.category;
+    const desc=document.createElement('p');desc.className='note';desc.textContent=p.description;
+    const actions=document.createElement('div');actions.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
+    const listen=podcastButton('▶ Écouter',()=>{ $('podcastUrl').value=p.url;openPodcast(p.url);$('podcastMessage').scrollIntoView({behavior:'smooth',block:'center'})});
+    listen.className='play';listen.setAttribute('aria-label','Écouter '+p.title);
+    const subscribed=subscriptions().some(x=>x.url===p.url);
+    const follow=podcastButton(subscribed?'✓ Abonné':'＋ S’abonner',()=>subscribeSelection(p));
+    follow.disabled=subscribed;follow.setAttribute('aria-label',subscribed?'Déjà abonné à '+p.title:'S’abonner à '+p.title);
+    const source=document.createElement('a');source.href=p.source;source.target='_blank';source.rel='noopener noreferrer';source.className='note';source.style.color='var(--accent)';source.textContent='À propos';
+    actions.append(listen,follow);card.append(title,genre,desc,actions,source);el.append(card);
+  }
+}
+function subscribeSelection(p){
+  if(subscriptions().some(x=>x.url===p.url))return;
+  if(!saveSubscriptions([{url:p.url,title:p.title},...subscriptions()]))return;
+  renderSubscriptions();podMessage('✓ Abonné à '+p.title+'. Retrouve cette émission dans « Mes abonnements ».');
+}
 function renderSubscriptions(){
-  const el=$('podcastSubscriptions');el.innerHTML='';
+  renderPodcastSelection();const el=$('podcastSubscriptions');el.innerHTML='';if(!subscriptions().length){const empty=document.createElement('span');empty.className='note';empty.textContent='Choisis une émission ci-dessus pour la retrouver ici.';el.append(empty)}
   for(const s of subscriptions()){
     const group=document.createElement('div');group.style.cssText='display:flex;gap:4px;align-items:center';
     group.append(podcastButton(s.title,()=>openPodcast(s.url)),podcastButton('×',()=>{if(!saveSubscriptions(subscriptions().filter(x=>x.url!==s.url)))return;++podcastRequest;renderSubscriptions();$('podcastEpisodes').innerHTML='';podcastEpisodes=[];visibleStations=[];updateTransportButtons();podMessage('Abonnement supprimé.')}));
